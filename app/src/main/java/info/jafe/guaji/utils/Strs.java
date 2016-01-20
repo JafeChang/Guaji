@@ -1,9 +1,12 @@
 package info.jafe.guaji.utils;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by JafeChang on 16/1/14.
  */
 public class Strs {
+    private static DecimalFormat df=new DecimalFormat("#.00");
     /**
      * 判断字符串是否为null或空字符串""
      * @param str
@@ -34,6 +37,19 @@ public class Strs {
             return getEmpty(str);
         }else{
             return str;
+        }
+    }
+
+    public static String f(long l){
+        double d = (double) l;
+        if(d>1e9){
+            return df.format(d/1e9)+" G";
+        }else if(d>1e6){
+            return df.format(d/1e6)+" M";
+        }else if(d>1e3){
+            return df.format(d/1e3)+" K";
+        }else{
+            return l+"";
         }
     }
 }

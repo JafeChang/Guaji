@@ -28,10 +28,7 @@ public class Display implements Pair, Growable, IndexGettable{
 
     @Override
     public long getValue() {
-        long v = value;
-        grow();
-        Logs.d(this.value+"");
-        return v;
+        return value;
     }
 
     @Override

@@ -10,25 +10,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import info.jafe.guaji.Entity.Display;
 import info.jafe.guaji.R;
 import info.jafe.guaji.ui.MainActivity;
+import info.jafe.guaji.utils.Strs;
 
 /**
  * Created by JafeChang on 16/1/14.
  */
 public class DisplayAdapter extends BaseAdapter{
-    private List<Map<String, Object>> displayList;
+    private List<Display> displayList;
     private ViewHolder holder;
     private LayoutInflater mInflater;
 
-    private interface Keys{
-        String DIS_KEY = "key";
-        String DIS_VALUE = "value";
-        String DIS_GROWTH = "growth";
-    }
-
-    public DisplayAdapter(List<Map<String, Object>> displayList){
-        mInflater = LayoutInflater.from(MainActivity.instance);
+    public DisplayAdapter(List<Display> displayList){
+//        mInflater = LayoutInflater.from(MainActivity.instance);
         this.displayList = displayList;
     }
 
@@ -50,8 +46,11 @@ public class DisplayAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         holder = null;
-        if (convertView == null) {
+        if (null == convertView) {
             holder=new ViewHolder();
+            if(null == mInflater){
+                mInflater = LayoutInflater.from(MainActivity.instance);
+            }
             convertView = mInflater.inflate(R.layout.display_unit, null);
             holder.tvKey = (TextView)convertView.findViewById(R.id.display_unit_key);
             holder.tvValue = (TextView)convertView.findViewById(R.id.display_unit_value);
@@ -60,21 +59,11 @@ public class DisplayAdapter extends BaseAdapter{
         }else {
             holder = (ViewHolder)convertView.getTag();
         }
-        String key = (String) displayList.get(position).get(Keys.DIS_KEY);
-        String value = displayList.get(position).get(Keys.DIS_VALUE)+"";
-        String growth = displayList.get(position).get(Keys.DIS_GROWTH)+"";
-        holder.tvKey.setText(key);
-        holder.tvValue.setText(value);
-        holder.tvGrowth.setText(growth);
-        return convertView;
-    }
 
-    public Map<String, Object> unit(String key, long value, long growth){
-        Map<String, Object> map = new HashMap<>();
-        map.put(Keys.DIS_KEY,key);
-        map.put(Keys.DIS_VALUE,value);
-        map.put(Keys.DIS_GROWTH,growth);
-        return map;
+        holder.tvKey.setText(displayList.get(position).getKey());
+        holder.tvValue.setText(Strs.f(displayList.get(position).getValue()));
+        holder.tvGrowth.setText(Strs.f(displayList.get(position).getGrowth()));
+        return convertView;
     }
 
     class ViewHolder{

@@ -22,7 +22,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
         public void handleMessage(Message msg) {
             switch (msg.arg1){
                 case Msg.ADD_TO_LIST:{
-                    App.get().addToList((Display)msg.obj);
+//                    App.get().addToList((Display)msg.obj);
+                    App.get().foo();
                     break;
                 }
             }
@@ -32,13 +33,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private App app;
     private Handler handler;
     private ListView displayListView;
-    private Display display;
     @Override
     public void onClick(View view){
         switch (view.getId()){
             case R.id.bt_top:{
-                Logs.d("onclick");
-                App.get().addToList(display);
+//                Logs.d("onclick");
+                App.get().foo();
                 break;
             }
         }
@@ -80,7 +80,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         findViewById(R.id.bt_top).setOnClickListener(this);
         app = App.get();
         handler = new Hand();
-        display = new Display("key",0,1);
     }
 
     private void initList(){

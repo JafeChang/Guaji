@@ -8,7 +8,7 @@ import android.util.Log;
 public class Logs {
     private static boolean isDebug = true;
 
-    public static void d(String msg){
+    public static void d(CharSequence msg){
         if(!isDebug){
             return;
         }
