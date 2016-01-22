@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="back">@color/transparent</color>
+    <color name="text">@color/lightgrey</color>
+    <color name="table_select_back">@color/mediumslateblue</color>
+    <color name="table_select_text">@color/black</color>
+    <color name="table_noselect_back">@color/transparent</color>
+    <color name="table_notselect_text">@color/defaultgrey</color>
+</resources>

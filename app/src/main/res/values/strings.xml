@@ -7,17 +7,21 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <string name="fragment_building">建筑</string>
+    <string name="fragment_supplies">物资</string>
+
     <string-array name="pair_keys">
         <item>木材</item>
         <item>石头</item>
         <item>水</item>
         <item>食物</item>
     </string-array>
-    <integer-array  name="pair_default_values">
+    <integer-array name="pair_default_values">
         <item>0</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
     </integer-array>
+
 
 </resources>

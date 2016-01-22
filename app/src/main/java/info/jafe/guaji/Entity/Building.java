@@ -3,19 +3,21 @@ package info.jafe.guaji.Entity;
 import info.jafe.guaji.Entity.interfaces.Growable;
 import info.jafe.guaji.Entity.interfaces.IndexGettable;
 import info.jafe.guaji.Entity.interfaces.Pair;
-import info.jafe.guaji.utils.Logs;
 import info.jafe.guaji.utils.Strs;
 
 /**
- * Created by JafeChang on 16/1/14.
+ * Created by jianfei on 2016/1/22.
  */
-public class Display implements Pair, Growable, IndexGettable{
+public class Building implements Pair, Growable, IndexGettable {
     private String key = "";
     private long value = 0;
     private long growth = 0;
     private int index = -1;
-    public Display(){}
-    public Display(String key, long value, long growth){
+
+    public Building() {
+    }
+
+    public Building(String key, long value, long growth) {
         this.key = key;
         this.value = value;
         this.growth = growth;
