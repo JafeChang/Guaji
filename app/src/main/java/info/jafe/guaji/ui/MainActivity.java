@@ -35,8 +35,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         public void handleMessage(Message msg) {
             switch (msg.arg1) {
                 case Msg.ADD_TO_LIST: {
-//                    App.get().addToList((Display)msg.obj);
-                    App.get().foo();
                     break;
                 }
             }
@@ -46,26 +44,17 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
     public static MainActivity instance;
     private App app;
     private Handler handler;
-    private ListView displayListView;
     private FragmentManager fragmentManager;
     private Fragment fBuilding, fSupplies;
     private RelativeLayout rlBuilding, rlSupplies;
     private TextView tvBuilding, tvSupplies;
 
-    //    private
     @Override
     public void onClick(View view) {
-        Logs.d("onclick");
         switch (view.getId()) {
             default: {
                 setTabSelection(view.getId());
             }
-//            case R.id.bt_top:{
-////                Logs.d("onclick");
-//                App.get().foo();
-//                break;
-//            }
-
         }
     }
 
@@ -134,7 +123,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
             case R.id.building_layout: {
                 setSelectionStyle(rlBuilding, tvBuilding);
                 if (fBuilding == null) {
-                    fBuilding = new BuildingFragment();
+                    fBuilding = BuildingFragment.getInstance("", "");
                     transaction.add(R.id.content,fBuilding);
                 }else{
                     transaction.show(fBuilding);
@@ -144,7 +133,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
             case R.id.supplies_layout:{
                 setSelectionStyle(rlSupplies,tvSupplies);
                 if(fSupplies == null){
-                    fSupplies = new SuppliesFragment();
+                    fSupplies = SuppliesFragment.newInstance("","");
                     transaction.add(R.id.content,fSupplies);
                 }else {
                     transaction.show(fSupplies);

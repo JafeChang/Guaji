@@ -3,45 +3,26 @@ package info.jafe.guaji.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import info.jafe.guaji.Entity.Display;
+import info.jafe.guaji.Entity.Supplies;
 import info.jafe.guaji.R;
+import info.jafe.guaji.adapter.abstracts.AbstractsAdapter;
 import info.jafe.guaji.ui.MainActivity;
 import info.jafe.guaji.utils.Strs;
 
 /**
  * Created by JafeChang on 16/1/14.
  */
-public class DisplayAdapter extends BaseAdapter{
-    private List<Display> displayList;
+public class SuppliesAdapter extends AbstractsAdapter<Supplies>{
     private ViewHolder holder;
-    private LayoutInflater mInflater;
 
-    public DisplayAdapter(List<Display> displayList){
-//        mInflater = LayoutInflater.from(MainActivity.instance);
-        this.displayList = displayList;
+    public SuppliesAdapter(List<Supplies> list) {
+       super(list);
     }
 
-    @Override
-    public int getCount() {
-        return displayList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return displayList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -51,7 +32,7 @@ public class DisplayAdapter extends BaseAdapter{
             if(null == mInflater){
                 mInflater = LayoutInflater.from(MainActivity.instance);
             }
-            convertView = mInflater.inflate(R.layout.display_unit, null);
+            convertView = mInflater.inflate(R.layout.display_unit, null,false);
             holder.tvKey = (TextView)convertView.findViewById(R.id.display_unit_key);
             holder.tvValue = (TextView)convertView.findViewById(R.id.display_unit_value);
             holder.tvGrowth = (TextView)convertView.findViewById(R.id.display_unit_growth);
@@ -60,9 +41,10 @@ public class DisplayAdapter extends BaseAdapter{
             holder = (ViewHolder)convertView.getTag();
         }
 
-        holder.tvKey.setText(displayList.get(position).getKey());
-        holder.tvValue.setText(Strs.f(displayList.get(position).getValue()));
-        holder.tvGrowth.setText(Strs.f(displayList.get(position).getGrowth()));
+        Supplies supplies = (Supplies) getItem(position);
+        holder.tvKey.setText(supplies.getKey());
+        holder.tvValue.setText(Strs.f(supplies.getValue()));
+        holder.tvGrowth.setText(Strs.f(supplies.getGrowth()));
         return convertView;
     }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/building_grid_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/building_grid_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/text"
+        android:hint="建筑名"/>
+    <TextView
+        android:id="@+id/building_grid_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/text"
+        android:hint="建筑描述"/>
+</LinearLayout>

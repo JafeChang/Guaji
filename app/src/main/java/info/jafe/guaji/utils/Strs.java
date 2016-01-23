@@ -1,5 +1,7 @@
 package info.jafe.guaji.utils;
 
+import android.os.Environment;
+
 import java.text.DecimalFormat;
 
 /**
@@ -40,6 +42,11 @@ public class Strs {
         }
     }
 
+    /**
+     * 格式化数字
+     * @param l
+     * @return
+     */
     public static String f(long l){
         double d = (double) l;
         if(d>1e9){
@@ -51,5 +58,13 @@ public class Strs {
         }else{
             return l+"";
         }
+    }
+
+    public static String getSDPath(){
+        String sdPath = "";
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        }
+        return sdPath;
     }
 }

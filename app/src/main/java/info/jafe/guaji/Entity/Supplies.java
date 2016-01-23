@@ -9,13 +9,13 @@ import info.jafe.guaji.utils.Strs;
 /**
  * Created by JafeChang on 16/1/14.
  */
-public class Display implements Pair, Growable, IndexGettable{
+public class Supplies implements Pair, Growable, IndexGettable{
     private String key = "";
     private long value = 0;
     private long growth = 0;
     private int index = -1;
-    public Display(){}
-    public Display(String key, long value, long growth){
+    public Supplies(){}
+    public Supplies(String key, long value, long growth){
         this.key = key;
         this.value = value;
         this.growth = growth;
@@ -64,5 +64,9 @@ public class Display implements Pair, Growable, IndexGettable{
     @Override
     public int getIndex() {
         return this.index;
+    }
+
+    public String test(){
+        return "";
     }
 }

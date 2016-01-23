@@ -7,8 +7,15 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import info.jafe.guaji.Entity.Supplies;
 import info.jafe.guaji.R;
+import info.jafe.guaji.adapter.SuppliesAdapter;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
 
 /**
@@ -19,15 +26,25 @@ import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
  * Use the {@link SuppliesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SuppliesFragment extends Fragment {
+public class SuppliesFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static SuppliesFragment instance;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private View view;
+
+    private Button bt;
+    private ListView suppliesListView;
+
+    private SuppliesAdapter suppliesAdapter;
+    private List<Supplies> suppliesList;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,13 +61,15 @@ public class SuppliesFragment extends Fragment {
      * @return A new instance of fragment SuppliesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SuppliesFragment newInstance(String param1, String param2) {
-        SuppliesFragment fragment = new SuppliesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static synchronized SuppliesFragment newInstance(String param1, String param2) {
+        if(instance == null){
+            instance = new SuppliesFragment();
+            Bundle args = new Bundle();
+            args.putString(ARG_PARAM1, param1);
+            args.putString(ARG_PARAM2, param2);
+            instance.setArguments(args);
+        }
+        return instance;
     }
 
     @Override
@@ -60,13 +79,27 @@ public class SuppliesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_supplies, container, false);
+        view = inflater.inflate(R.layout.fragment_supplies, container, false);
+        initView();
+        return view;
+    }
+
+    private void initView(){
+        bt = (Button) view.findViewById(R.id.supplies_button);
+        suppliesListView = (ListView) view.findViewById(R.id.supplies_list);
+
+        suppliesList = new ArrayList<>();
+        suppliesAdapter = new SuppliesAdapter(suppliesList);
+
+        bt.setOnClickListener(this);
+        suppliesListView.setAdapter(suppliesAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -94,4 +127,18 @@ public class SuppliesFragment extends Fragment {
     }
 
 
+    private void addSupplies(Supplies supplies){
+        suppliesList.add(supplies);
+        suppliesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.supplies_button:{
+                addSupplies(new Supplies("key",0,1));
+                break;
+            }
+        }
+    }
 }

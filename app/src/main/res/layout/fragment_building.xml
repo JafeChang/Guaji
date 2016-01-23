@@ -5,11 +5,22 @@
     android:background="@color/back"
     tools:context=".ui.fragment.BuildingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="@color/text"
-        android:text="This is the building fragment" />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/building_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This is the building fragment" />
+
+        <GridView
+            android:id="@+id/building_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"/>
+    </LinearLayout>
 
 </FrameLayout>
