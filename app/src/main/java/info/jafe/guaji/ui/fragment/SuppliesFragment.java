@@ -14,9 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.jafe.guaji.Entity.Supplies;
+import info.jafe.guaji.Entity.factories.PairFactory;
+import info.jafe.guaji.Entity.interfaces.Pair;
 import info.jafe.guaji.R;
-import info.jafe.guaji.adapter.SuppliesAdapter;
+import info.jafe.guaji.adapter.PairAdapter;
+import info.jafe.guaji.app.App;
+import info.jafe.guaji.managers.DataManager;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
+import info.jafe.guaji.utils.Logs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,8 +47,8 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
     private Button bt;
     private ListView suppliesListView;
 
-    private SuppliesAdapter suppliesAdapter;
-    private List<Supplies> suppliesList;
+    private PairAdapter suppliesAdapter;
+    private List<Pair> suppliesList;
 
 
     private OnFragmentInteractionListener mListener;
@@ -95,8 +100,8 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
         bt = (Button) view.findViewById(R.id.supplies_button);
         suppliesListView = (ListView) view.findViewById(R.id.supplies_list);
 
-        suppliesList = new ArrayList<>();
-        suppliesAdapter = new SuppliesAdapter(suppliesList);
+        suppliesList = App.get().getPairList(Pair.TYPE_SUPPLIES);
+        suppliesAdapter = new PairAdapter(suppliesList);
 
         bt.setOnClickListener(this);
         suppliesListView.setAdapter(suppliesAdapter);
@@ -127,16 +132,24 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private void addSupplies(Supplies supplies){
-        suppliesList.add(supplies);
+    private void add(Pair pair){
+        suppliesList.add(pair);
         suppliesAdapter.notifyDataSetChanged();
     }
 
+    private int temp = 0;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.supplies_button:{
-                addSupplies(new Supplies("key",0,1));
+                if(temp<4){
+                    Pair pair = PairFactory.newInstance(Pair.TYPE_SUPPLIES,temp,0,1);
+                    App.get().addPair(pair);
+    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
+    //                Logs.d(list.size() + "");
+                    suppliesAdapter.notifyDataSetChanged();
+                    temp++;
+                }
                 break;
             }
         }

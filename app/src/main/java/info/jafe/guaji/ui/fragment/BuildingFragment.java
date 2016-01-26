@@ -14,7 +14,7 @@ import java.util.List;
 
 import info.jafe.guaji.Entity.Building;
 import info.jafe.guaji.R;
-import info.jafe.guaji.adapter.BuildingAdapter;
+import info.jafe.guaji.adapter.PairAdapter;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
 
 /**
@@ -40,7 +40,7 @@ public class BuildingFragment extends Fragment {
     private Button bt;
     private ListView buildingListView;
 
-    private BuildingAdapter buildingAdapter;
+    private PairAdapter buildingAdapter;
     private List<Building> buildingList;
 
     private OnFragmentInteractionListener mListener;

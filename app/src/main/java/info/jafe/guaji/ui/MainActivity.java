@@ -179,8 +179,13 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        App.get().onClose();
+    }
 
-//    private void initNewly(){
+    //    private void initNewly(){
 ////        findViewById(R.id.bt_top).setOnClickListener(this);
 //        app = App.get();
 //        handler = new Hand();

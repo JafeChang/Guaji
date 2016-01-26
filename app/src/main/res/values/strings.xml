@@ -10,13 +10,25 @@
     <string name="fragment_building">建筑</string>
     <string name="fragment_supplies">物资</string>
 
-    <string-array name="pair_keys">
-        <item>木材</item>
-        <item>石头</item>
-        <item>水</item>
-        <item>食物</item>
+    <string-array name="buildings_keys">
+        <item key="0">小屋</item>
+        <item key="1">伐木场</item>
+        <item key="2">采石场</item>
+        <item key="3">农田</item>
     </string-array>
-    <integer-array name="pair_default_values">
+    <integer-array name="buildings_default_values">
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+    <string-array name="supplies_keys">
+        <item key="0">木材</item>
+        <item key="1">石头</item>
+        <item key="2">水</item>
+        <item key="3">食物</item>
+    </string-array>
+    <integer-array name="supplies_default_values">
         <item>0</item>
         <item>0</item>
         <item>0</item>

@@ -2,17 +2,12 @@ package info.jafe.guaji.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import info.jafe.guaji.functionals.ToSaveList;
 
 /**
  * Created by jianfei on 2016/1/23.
@@ -60,13 +55,13 @@ public class Disk {
     }
 
     public static void saveAll(final Map<String,List<?>> listMap){
-        new Thread(){
-            @Override
-            public void run(){
-                ToSaveList toSaveList = new ToSaveList(listMap);
-                save(toSaveList,Names.TO_SAVE_LIST);
-            }
-        }.start();
+//        new Thread(){
+//            @Override
+//            public void run(){
+//                ToSaveList toSaveList = new ToSaveList(listMap);
+//                save(toSaveList,Names.TO_SAVE_LIST);
+//            }
+//        }.start();
     }
 
     public static void readAll(){

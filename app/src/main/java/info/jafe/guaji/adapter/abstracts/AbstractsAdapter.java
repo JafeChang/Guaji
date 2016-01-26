@@ -7,8 +7,6 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-import info.jafe.guaji.Entity.Supplies;
-
 /**
  * Created by jianfei on 2016/1/22.
  */

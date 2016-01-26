@@ -8,19 +8,23 @@ import android.widget.TextView;
 import java.util.List;
 
 import info.jafe.guaji.Entity.Supplies;
+import info.jafe.guaji.Entity.interfaces.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.abstracts.AbstractsAdapter;
+import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.MainActivity;
 import info.jafe.guaji.utils.Strs;
 
 /**
  * Created by JafeChang on 16/1/14.
  */
-public class SuppliesAdapter extends AbstractsAdapter<Supplies>{
+public class PairAdapter extends AbstractsAdapter<Pair>{
     private ViewHolder holder;
+    private App app;
 
-    public SuppliesAdapter(List<Supplies> list) {
+    public PairAdapter(List<Pair> list) {
        super(list);
+        this.app = App.get();
     }
 
 
@@ -41,10 +45,10 @@ public class SuppliesAdapter extends AbstractsAdapter<Supplies>{
             holder = (ViewHolder)convertView.getTag();
         }
 
-        Supplies supplies = (Supplies) getItem(position);
-        holder.tvKey.setText(supplies.getKey());
-        holder.tvValue.setText(Strs.f(supplies.getValue()));
-        holder.tvGrowth.setText(Strs.f(supplies.getGrowth()));
+        Pair pair = (Pair) getItem(position);
+        holder.tvKey.setText(app.getKeyStr(pair));
+        holder.tvValue.setText(Strs.f(pair.getValue()));
+        holder.tvGrowth.setText(Strs.f(pair.getGrowth()));
         return convertView;
     }
 
