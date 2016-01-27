@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="buildings_keys" type="0">
+        <item key="0">小屋</item>
+        <item key="1">伐木场</item>
+        <item key="2">采石场</item>
+        <item key="3">农田</item>
+    </string-array>
+    <integer-array name="buildings_default_values">
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+    <string-array name="supplies_keys" type="1">
+        <item key="0">木材</item>
+        <item key="1">石头</item>
+        <item key="2">水</item>
+        <item key="3">食物</item>
+    </string-array>
+    <integer-array name="supplies_default_values">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+</resources>

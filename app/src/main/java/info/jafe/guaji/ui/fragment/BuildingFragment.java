@@ -8,13 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.List;
 
 import info.jafe.guaji.Entity.Building;
+import info.jafe.guaji.Entity.factories.PairFactory;
+import info.jafe.guaji.Entity.interfaces.Pair;
 import info.jafe.guaji.R;
-import info.jafe.guaji.adapter.PairAdapter;
+import info.jafe.guaji.adapter.BuildingAdapter;
+import info.jafe.guaji.adapter.SuppliesAdapter;
+import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
 
 /**
@@ -25,7 +30,7 @@ import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
  * Use the {@link BuildingFragment#getInstance} factory method to
  * create an instance of this fragment.
  */
-public class BuildingFragment extends Fragment {
+public class BuildingFragment extends Fragment implements View.OnClickListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -38,10 +43,10 @@ public class BuildingFragment extends Fragment {
     private View view;
 
     private Button bt;
-    private ListView buildingListView;
+    private GridView buildingListView;
 
-    private PairAdapter buildingAdapter;
-    private List<Building> buildingList;
+    private BuildingAdapter buildingAdapter;
+    private List<Pair> buildingList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -90,8 +95,13 @@ public class BuildingFragment extends Fragment {
 
     private void initView() {
         bt = (Button)view.findViewById(R.id.building_button);
-        buildingListView = (ListView) view.findViewById(R.id.supplies_list);
+        buildingListView = (GridView) view.findViewById(R.id.building_grid);
 
+        buildingList = App.get().getPairList(Pair.TYPE_BUILDING);
+        buildingAdapter = new BuildingAdapter(buildingList);
+
+        bt.setOnClickListener(this);
+        buildingListView.setAdapter(buildingAdapter);
 
 
     }
@@ -120,4 +130,27 @@ public class BuildingFragment extends Fragment {
     }
 
 
+    private int temp = 0;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.building_button:{
+//                Pair pair = PairFactory.newInstance(0,0,1,1);
+//                List<Pair> list = new Price().getPrice(pair);
+//                for(Pair p:list){
+//                    Logs.d(p.toString());
+//                }
+                if(temp<4){
+                    Pair pair = PairFactory.newInstance(Pair.TYPE_BUILDING, temp, 0, 1);
+                    App.get().addPair(pair);
+                    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
+                    //                Logs.d(list.size() + "");
+                    buildingAdapter.notifyDataSetChanged();
+                }
+                temp = temp>=4?0:temp+1;
+                break;
+            }
+        }
+
+    }
 }

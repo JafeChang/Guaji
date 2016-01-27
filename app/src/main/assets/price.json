@@ -1,0 +1,26 @@
+{
+  "0":[
+    {"price":[
+      {"type":1,"key":0,"value":100,"desc":"木材"},
+      {"type":1,"key":1,"value":50,"desc":"石头"},
+      {"type":1,"key":3,"value":100,"desc":"食物"}
+    ],"desc":"小屋","key":0},
+    {"price":[
+      {"type":1,"key":0,"value":100,"desc":"木材"},
+      {"type":1,"key":1,"value":50,"desc":"石头"},
+      {"type":1,"key":3,"value":100,"desc":"食物"}
+    ],"desc":"伐木场","key":1},
+    {"price":[
+      {"type":1,"key":0,"value":100,"desc":"木材"},
+      {"type":1,"key":1,"value":50,"desc":"石头"},
+      {"type":1,"key":3,"value":100,"desc":"食物"}
+    ],"desc":"采石场","key":2},
+    {"price":[
+      {"type":1,"key":0,"value":100,"desc":"木材"},
+      {"type":1,"key":1,"value":50,"desc":"石头"},
+      {"type":1,"key":3,"value":100,"desc":"食物"}
+    ],"desc":"采石场","key":3}
+
+  ],
+  "1":[]
+}

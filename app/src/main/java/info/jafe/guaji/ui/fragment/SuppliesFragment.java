@@ -10,18 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import info.jafe.guaji.Entity.Supplies;
 import info.jafe.guaji.Entity.factories.PairFactory;
 import info.jafe.guaji.Entity.interfaces.Pair;
 import info.jafe.guaji.R;
-import info.jafe.guaji.adapter.PairAdapter;
+import info.jafe.guaji.adapter.SuppliesAdapter;
 import info.jafe.guaji.app.App;
-import info.jafe.guaji.managers.DataManager;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
-import info.jafe.guaji.utils.Logs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +43,7 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
     private Button bt;
     private ListView suppliesListView;
 
-    private PairAdapter suppliesAdapter;
+    private SuppliesAdapter suppliesAdapter;
     private List<Pair> suppliesList;
 
 
@@ -101,7 +97,7 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
         suppliesListView = (ListView) view.findViewById(R.id.supplies_list);
 
         suppliesList = App.get().getPairList(Pair.TYPE_SUPPLIES);
-        suppliesAdapter = new PairAdapter(suppliesList);
+        suppliesAdapter = new SuppliesAdapter(suppliesList);
 
         bt.setOnClickListener(this);
         suppliesListView.setAdapter(suppliesAdapter);
