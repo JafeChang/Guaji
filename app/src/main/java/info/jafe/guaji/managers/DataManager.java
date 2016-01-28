@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.jafe.guaji.Entity.factories.PairFactory;
-import info.jafe.guaji.Entity.interfaces.Pair;
+import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.app.App;
 
 /**
@@ -60,7 +60,7 @@ public class DataManager {
         long growth = pair.getGrowth();
         String tableName = TABLE_NAMES[pair.getType()];
         String sql = "update "+tableName+" set value=?, growth=? where key=?";
-        db.execSQL(sql,new String[]{value+"",growth+"",key+""});
+        db.execSQL(sql, new String[]{value + "", growth + "", key + ""});
     }
 
     public void save(Pair pair){
@@ -86,7 +86,9 @@ public class DataManager {
             int key = c.getInt(c.getColumnIndex("key"));
             long value = c.getLong(c.getColumnIndex("value"));
             long growth = c.getLong(c.getColumnIndex("growth"));
-            Pair pair = PairFactory.newInstance(type, key, value, growth);
+            Pair pair = PairFactory.newInstance(type, key);
+            pair.setValue(value);
+            pair.setGrowth(growth);
             list.add(pair);
         }
         return list;
@@ -95,6 +97,13 @@ public class DataManager {
     public void close(){
         if(db != null && db.isOpen()){
             db.close();
+        }
+    }
+
+    public void reset(){
+        for(String tableName:TABLE_NAMES){
+            String sql = "delete from "+tableName;
+            db.execSQL(sql);
         }
     }
 }

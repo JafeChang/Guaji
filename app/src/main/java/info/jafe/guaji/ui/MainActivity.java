@@ -4,23 +4,23 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import info.jafe.guaji.R;
 import info.jafe.guaji.app.App;
-import info.jafe.guaji.constant.Msg;
 import info.jafe.guaji.ui.fragment.BuildingFragment;
+import info.jafe.guaji.ui.fragment.SettingsFragment;
 import info.jafe.guaji.ui.fragment.SuppliesFragment;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
+import info.jafe.guaji.utils.Hand;
 import info.jafe.guaji.utils.Logs;
 
 
@@ -30,24 +30,14 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
 
     }
 
-    private static class Hand extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.arg1) {
-                case Msg.ADD_TO_LIST: {
-                    break;
-                }
-            }
-        }
-    }
-
     public static MainActivity instance;
     private App app;
     private Handler handler;
     private FragmentManager fragmentManager;
-    private Fragment fBuilding, fSupplies;
-    private RelativeLayout rlBuilding, rlSupplies;
-    private TextView tvBuilding, tvSupplies;
+    private Fragment fBuildings, fSupplies,fSettings;
+    private RelativeLayout rlBuildings, rlSupplies, rlSettings;
+    private TextView tvBuildings, tvSupplies, tvSettings;
+    private Hand hand;
 
     @Override
     public void onClick(View view) {
@@ -63,10 +53,26 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
+        init();
         initFragment();
 //        initNewly();
 //        initList();
         Logs.d("MainActivity");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
+    }
+
+    private void initData() {
+        App.get().read();
+    }
+
+    private void init() {
+        hand = new Hand();
+        Hand.bind(hand);
     }
 
     /**
@@ -74,13 +80,17 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
      */
     private void initFragment() {
         fragmentManager = getFragmentManager();
-        rlBuilding = (RelativeLayout) findViewById(R.id.building_layout);
+        rlBuildings = (RelativeLayout) findViewById(R.id.building_layout);
         rlSupplies = (RelativeLayout) findViewById(R.id.supplies_layout);
-        tvBuilding = (TextView) findViewById(R.id.building_text);
-        tvSupplies = (TextView) findViewById(R.id.supplies_text);
+        rlSettings = (RelativeLayout) findViewById(R.id.settings_layout);
 
-        rlBuilding.setOnClickListener(this);
+        tvBuildings = (TextView) findViewById(R.id.building_text);
+        tvSupplies = (TextView) findViewById(R.id.supplies_text);
+        tvSettings = (TextView) findViewById(R.id.settings_text);
+
+        rlBuildings.setOnClickListener(this);
         rlSupplies.setOnClickListener(this);
+        rlSettings.setOnClickListener(this);
 
     }
 
@@ -121,12 +131,12 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         hideFragments(transaction);
         switch (id) {
             case R.id.building_layout: {
-                setSelectionStyle(rlBuilding, tvBuilding);
-                if (fBuilding == null) {
-                    fBuilding = BuildingFragment.getInstance("", "");
-                    transaction.add(R.id.content,fBuilding);
+                setSelectionStyle(rlBuildings, tvBuildings);
+                if (fBuildings == null) {
+                    fBuildings = BuildingFragment.getInstance("", "");
+                    transaction.add(R.id.content, fBuildings);
                 }else{
-                    transaction.show(fBuilding);
+                    transaction.show(fBuildings);
                 }
                 break;
             }
@@ -140,6 +150,17 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 }
                 break;
             }
+            case R.id.settings_layout:{
+                setSelectionStyle(rlSettings,tvSettings);
+                if(fSettings == null){
+                    fSettings = SettingsFragment.newInstance("","");
+                    transaction.add(R.id.content,fSettings);
+                }else {
+                    transaction.show(fSettings);
+                }
+                break;
+            }
+            default:{break;}
         }
         transaction.commit();
     }
@@ -148,10 +169,15 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
      * 还原Tab的样子
      */
     private void clearSelectionStyle() {
-        rlBuilding.setBackgroundResource(R.color.table_noselect_back);
-        tvBuilding.setTextColor(getResources().getColor(R.color.table_notselect_text));
-        rlSupplies.setBackgroundResource(R.color.table_noselect_back);
-        tvSupplies.setTextColor(getResources().getColor(R.color.table_notselect_text));
+        int c0 = getResources().getColor(R.color.table_noselect_back);
+        int c1 = getResources().getColor(R.color.table_notselect_text);
+
+        rlBuildings.setBackgroundColor(c0);
+        tvBuildings.setTextColor(c1);
+        rlSupplies.setBackgroundColor(c0);
+        tvSupplies.setTextColor(c1);
+        rlSettings.setBackgroundColor(c0);
+        tvSettings.setTextColor(c1);
     }
 
     /**
@@ -171,18 +197,21 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
      * @param transaction
      */
     private void hideFragments(FragmentTransaction transaction) {
-        if (fBuilding != null) {
-            transaction.hide(fBuilding);
+        if (fBuildings != null) {
+            transaction.hide(fBuildings);
         }
         if (fSupplies != null) {
             transaction.hide(fSupplies);
+        }
+        if (fSettings != null) {
+            transaction.hide(fSettings);
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        App.get().onClose();
+        App.get().save();
     }
 
     //    private void initNewly(){

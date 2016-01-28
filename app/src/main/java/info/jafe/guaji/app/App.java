@@ -1,18 +1,13 @@
 package info.jafe.guaji.app;
 
 import android.app.Application;
-import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import info.jafe.guaji.Entity.Building;
-import info.jafe.guaji.Entity.Supplies;
-import info.jafe.guaji.Entity.interfaces.Pair;
+import info.jafe.guaji.Entity.abstracts.Pair;
+import info.jafe.guaji.Entity.factories.PairFactory;
 import info.jafe.guaji.R;
 import info.jafe.guaji.managers.DataManager;
-import info.jafe.guaji.utils.Disk;
 import info.jafe.guaji.utils.Logs;
 
 /**
@@ -38,9 +33,6 @@ public class App extends Application {
         buildingNames = getResources().getStringArray(R.array.buildings_keys);
         suppliesNames = getResources().getStringArray(R.array.supplies_keys);
         dm = DataManager.get();
-        suppliesList = dm.readAll(Pair.TYPE_SUPPLIES);
-        buildingList = dm.readAll(Pair.TYPE_BUILDING);
-        Disk.readAll();
     }
 
     @Override
@@ -48,15 +40,21 @@ public class App extends Application {
 //        Map<String,List<?>> listMap = new Hi
 //        Disk.saveAll();
         super.onTerminate();
+        dm.close();
 
     }
 
-    public void onClose(){
+
+    public void read(){
+        suppliesList = dm.readAll(Pair.TYPE_SUPPLIES);
+        buildingList = dm.readAll(Pair.TYPE_BUILDING);
+    }
+
+    public void save(){
         dm.saveAll(suppliesList);
         dm.saveAll(buildingList);
         List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
         Logs.d(list.size() + "");
-        dm.close();
 
     }
 
@@ -98,6 +96,25 @@ public class App extends Application {
         }
     }
 
+    public Pair getPair(int type, int key){
+        for(Pair pair:getPairList(type)){
+            if(pair.getKey() == key){
+                return pair;
+            }
+        }
+        return null;
+    }
+
+    public Pair getOrNewPair(int type, int key){
+        Pair pair = getPair(type, key);
+        if(pair==null){
+            pair = PairFactory.newInstance(type, key);
+        }
+        return pair;
+    }
+
+
+
     public List<Pair> getPairList(int type){
         switch (type){
             case Pair.TYPE_BUILDING:{
@@ -110,6 +127,13 @@ public class App extends Application {
                 return null;
             }
         }
+    }
+
+    public void reset(){
+        getPairList(0).clear();
+        getPairList(1).clear();
+
+        dm.reset();
     }
 
 

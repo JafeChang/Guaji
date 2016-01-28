@@ -1,6 +1,7 @@
 package info.jafe.guaji.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -8,15 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
 
-import java.util.List;
-
-import info.jafe.guaji.Entity.factories.PairFactory;
-import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.R;
-import info.jafe.guaji.adapter.SuppliesAdapter;
 import info.jafe.guaji.app.App;
+import info.jafe.guaji.utils.Hand;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
 
 /**
@@ -24,32 +21,26 @@ import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SuppliesFragment#newInstance} factory method to
+ * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SuppliesFragment extends Fragment implements View.OnClickListener{
+public class SettingsFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static SuppliesFragment instance;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private View view;
 
-    private Button bt;
-    private ListView suppliesListView;
-
-    private SuppliesAdapter suppliesAdapter;
-    private List<Pair> suppliesList;
-
+    private TextView tvReset;
 
     private OnFragmentInteractionListener mListener;
 
-    public SuppliesFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
@@ -59,18 +50,16 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SuppliesFragment.
+     * @return A new instance of fragment SettingsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static synchronized SuppliesFragment newInstance(String param1, String param2) {
-        if(instance == null){
-            instance = new SuppliesFragment();
-            Bundle args = new Bundle();
-            args.putString(ARG_PARAM1, param1);
-            args.putString(ARG_PARAM2, param2);
-            instance.setArguments(args);
-        }
-        return instance;
+    public static SettingsFragment newInstance(String param1, String param2) {
+        SettingsFragment fragment = new SettingsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -80,27 +69,21 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_supplies, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
         initView();
         return view;
     }
 
-    private void initView(){
-        bt = (Button) view.findViewById(R.id.supplies_button);
-        suppliesListView = (ListView) view.findViewById(R.id.supplies_list);
+    private void initView() {
+        tvReset = (TextView) view.findViewById(R.id.setting_reset);
 
-        suppliesList = App.get().getPairList(Pair.TYPE_SUPPLIES);
-        suppliesAdapter = new SuppliesAdapter(suppliesList);
-
-        bt.setOnClickListener(this);
-        suppliesListView.setAdapter(suppliesAdapter);
+        tvReset.setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -127,27 +110,17 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-
-    private void add(Pair pair){
-        suppliesList.add(pair);
-        suppliesAdapter.notifyDataSetChanged();
-    }
-
-    private int temp = 0;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.supplies_button:{
-                if(temp<4){
-                    Pair pair = PairFactory.newInstance(Pair.TYPE_SUPPLIES,temp);
-                    App.get().addPair(pair);
-    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
-    //                Logs.d(list.size() + "");
-                    suppliesAdapter.notifyDataSetChanged();
-                    temp++;
-                }
+            case R.id.setting_reset:{
+                Hand.t("reset");
+                App.get().reset();
+            }
+            default:{
                 break;
             }
         }
     }
+
 }

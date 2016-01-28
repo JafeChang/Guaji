@@ -1,0 +1,100 @@
+[
+  {
+    "title": "小屋",
+    "key": "0",
+    "value": "1",
+    "growth": "0",
+    "desc": "小屋"
+  },
+  {
+    "title": "伐木场",
+    "key": "1",
+    "value": "0",
+    "growth": "0",
+    "desc": "伐木场"
+  },
+  {
+    "title": "采石场",
+    "key": "2",
+    "value": "0",
+    "growth": "0",
+    "desc": "采石场"
+  },
+  {
+    "title": "农田",
+    "key": "3",
+    "value": "0",
+    "growth": "0",
+    "desc": "农田"
+  },
+  {
+    "title": "渔场",
+    "key": "4",
+    "value": "0",
+    "growth": "0",
+    "desc": "渔场"
+  },
+  {
+    "title": "铜矿",
+    "key": "5",
+    "value": "0",
+    "growth": "0",
+    "desc": "铜矿"
+  },
+  {
+    "title": "饭店",
+    "key": "6",
+    "value": "0",
+    "growth": "0",
+    "desc": "饭店"
+  },
+  {
+    "title": "水井",
+    "key": "7",
+    "value": "0",
+    "growth": "0",
+    "desc": "水井"
+  },
+  {
+    "title": "铁矿",
+    "key": "8",
+    "value": "0",
+    "growth": "0",
+    "desc": "铁矿"
+  },
+  {
+    "title": "煤矿",
+    "key": "9",
+    "value": "0",
+    "growth": "0",
+    "desc": "煤矿"
+  },
+  {
+    "title": "炭场",
+    "key": "10",
+    "value": "0",
+    "growth": "0",
+    "desc": "炭场"
+  },
+  {
+    "title": "炼铜厂",
+    "key": "11",
+    "value": "0",
+    "growth": "0",
+    "desc": "炼铜厂"
+  },
+  {
+    "title": "炼铁厂",
+    "key": "12",
+    "value": "0",
+    "growth": "0",
+    "desc": "炼铁厂"
+  },
+  {
+    "title": "炼钢厂",
+    "key": "13",
+    "value": "0",
+    "growth": "0",
+    "desc": "炼钢厂"
+  }
+]

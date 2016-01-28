@@ -9,16 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import java.util.List;
 
-import info.jafe.guaji.Entity.Building;
 import info.jafe.guaji.Entity.factories.PairFactory;
-import info.jafe.guaji.Entity.interfaces.Pair;
+import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.BuildingAdapter;
-import info.jafe.guaji.adapter.SuppliesAdapter;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
 
@@ -58,7 +55,7 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BuildingFragment.
+     * @return A new instance of fragment BuildingsFragment.
      */
     public static synchronized BuildingFragment getInstance(String param1, String param2) {
         if(instance == null){
@@ -141,7 +138,7 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
 //                    Logs.d(p.toString());
 //                }
                 if(temp<4){
-                    Pair pair = PairFactory.newInstance(Pair.TYPE_BUILDING, temp, 0, 1);
+                    Pair pair = PairFactory.newInstance(Pair.TYPE_BUILDING, temp);
                     App.get().addPair(pair);
                     //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
                     //                Logs.d(list.size() + "");

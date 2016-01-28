@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import info.jafe.guaji.Entity.interfaces.Pair;
+import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.abstracts.AbstractsAdapter;
 import info.jafe.guaji.ui.MainActivity;

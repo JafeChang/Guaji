@@ -1,17 +1,14 @@
 package info.jafe.guaji.Entity;
 
-import java.util.List;
-
-import info.jafe.guaji.Entity.interfaces.Pair;
-import info.jafe.guaji.utils.Strs;
+import info.jafe.guaji.Entity.abstracts.Pair;
 
 /**
  * Created by JafeChang on 16/1/14.
  */
 public class Supplies extends Pair {
 
-    public Supplies(int key, long value, long growth) {
-        super(key, value, growth);
+    public Supplies(int key, long value, long growth, String title, String desc) {
+        super(key, value, growth, title, desc);
     }
 
     @Override

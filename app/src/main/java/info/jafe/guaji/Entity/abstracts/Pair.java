@@ -1,9 +1,7 @@
-package info.jafe.guaji.Entity.interfaces;
+package info.jafe.guaji.Entity.abstracts;
 
 
 import java.util.List;
-
-import info.jafe.guaji.Entity.Supplies;
 
 /**
  * Created by JafeChang on 16/1/14.
@@ -15,13 +13,16 @@ public abstract class Pair {
     protected long value = 0;
     protected long growth = 0;
     protected String desc = "";
+    protected String title = "";
     protected int index = -1;
     protected List<Pair> price;
 
-    protected Pair(int key, long value, long growth){
+    protected Pair(int key, long value, long growth, String title, String desc){
         this.key = key;
         this.value = value;
         this.growth = growth;
+        this.title = title;
+        this.desc = desc;
     }
 
     public int getKey() {

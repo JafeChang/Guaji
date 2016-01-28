@@ -4,8 +4,6 @@ import android.os.Environment;
 
 import java.text.DecimalFormat;
 
-import info.jafe.guaji.Entity.interfaces.Pair;
-
 /**
  * Created by JafeChang on 16/1/14.
  */
