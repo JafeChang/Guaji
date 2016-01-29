@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +38,15 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
     private String mParam1;
     private String mParam2;
 
+    private final int type = Pair.TYPE_BUILDING;
+
     private View view;
 
     private Button bt;
     private GridView buildingListView;
 
     private BuildingAdapter buildingAdapter;
-    private List<Pair> buildingList;
+    private SparseArray<Pair> buildingList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -127,7 +130,6 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private int temp = 0;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -137,14 +139,26 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
 //                for(Pair p:list){
 //                    Logs.d(p.toString());
 //                }
-                if(temp<4){
-                    Pair pair = PairFactory.newInstance(Pair.TYPE_BUILDING, temp);
-                    App.get().addPair(pair);
-                    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
-                    //                Logs.d(list.size() + "");
-                    buildingAdapter.notifyDataSetChanged();
+//                if(temp<4){
+//                    Pair pair = PairFactory.newInstance(Pair.TYPE_BUILDING, temp<=App.get().getKeysAmount(type)?);
+//                    App.get().addPair(pair);
+//                    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
+//                    //                Logs.d(list.size() + "");
+//                    buildingAdapter.notifyDataSetChanged();
+//                }
+//                temp = temp>=4?0:temp+1;
+                for(int i=0;i<App.get().getKeysAmount(type);i++){
+                    Pair pair = App.get().getPair(type,i);
+                    if(pair==null){
+                        App.get().newPair(type,i);
+                        break;
+                    }else{
+                        pair.setGrowth(1);
+                        pair.grow(1);
+                    }
+
                 }
-                temp = temp>=4?0:temp+1;
+                buildingAdapter.notifyDataSetChanged();
                 break;
             }
         }

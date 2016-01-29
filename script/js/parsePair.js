@@ -1,8 +1,5 @@
-var t = function(){
-	parsePair({"desc":"小屋","value":1,"growth":0,"key":0});
-}
-
-var Pair = function(title,key,val,growth,desc){
+var Pair = function(type,title,key,val,growth,desc){
+	this.type = type;
 	this.title = title;
 	this.key = key;
 	this.val = val;
@@ -16,7 +13,8 @@ var parsePair = function(jsonPair){
 	val = jsonPair.value;
 	growth = jsonPair.growth;
 	desc = jsonPair.desc;
-	var p = new Pair(title,key,val,growth,desc);
+	type = jsonPair.type;
+	var p = new Pair(type,title,key,val,growth,desc);
 	console.log(p)
 	return p;
 }
@@ -61,6 +59,7 @@ var nodeToJson = function(ele){
 			jsonPair.desc = child.value;
 		}
 	}
+	jsonPair.type = getType();
 	return jsonPair;
 }
 
@@ -94,4 +93,8 @@ var isEmptyNode = function(ele){
 
 var isGood = function(text){
 	return text?text.length>0:false;
+}
+
+var getType = function(){
+	return f("typeinput").value;
 }

@@ -1,6 +1,8 @@
 package info.jafe.guaji.Entity.abstracts;
 
 
+import android.util.SparseArray;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,8 @@ public abstract class Pair {
     protected String desc = "";
     protected String title = "";
     protected int index = -1;
-    protected List<Pair> price;
+    protected SparseArray<Pair> price;
+    protected SparseArray<Pair> productions;
 
     protected Pair(int key, long value, long growth, String title, String desc){
         this.key = key;
@@ -41,8 +44,8 @@ public abstract class Pair {
         this.value = value;
     }
 
-    public void grow() {
-        this.value += growth;
+    public void grow(int times) {
+        this.value += growth*times;
     }
 
     public void add(long addend) {
@@ -75,13 +78,26 @@ public abstract class Pair {
 
     abstract public int getType();
 
-    public void setPrice(List<Pair> price) {
+    public void setPrice(SparseArray<Pair> price) {
         this.price = price;
     }
 
+    public String getTitle(){return this.title;}
 
-    public List<Pair> getPrice() {
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public SparseArray<Pair> getPrice() {
         return this.price;
+    }
+
+    public void setProductions(SparseArray<Pair> productions){
+        this.productions = productions;
+    }
+
+    public SparseArray<Pair> getProductions(){
+        return this.productions;
     }
 
     public String toString() {

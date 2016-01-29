@@ -15,7 +15,7 @@
         android:background="@drawable/building_back" />
 
     <TextView
-        android:id="@+id/building_unit_key"
+        android:id="@+id/building_unit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

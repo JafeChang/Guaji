@@ -1,5 +1,7 @@
 package info.jafe.guaji.Entity.factories;
 
+import android.util.SparseArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +27,9 @@ public class PairFactory {
     private static final String FILENAME_SUPPLIES = "supplies.json";
 
     public static Pair newInstance(int type,int key){
-        return jsonToPair(getJOPair(type, key));
+        Pair pair = jsonToPair(getJOPair(type, key));
+        pair.setPrice(getPrice(pair));
+        return pair;
     }
 
     public static Pair newInstance(int arguments[]){
@@ -48,7 +52,7 @@ public class PairFactory {
         return joPrice;
     }
 
-    private static JSONArray getJaBuildings() {
+    public static synchronized JSONArray getJaBuildings() {
         if(jaBuildings == null){
             String jaString = Disk.readStringFromAssets(FILENAME_BUILDING, App.get());
             try{
@@ -60,7 +64,7 @@ public class PairFactory {
         return jaBuildings;
     }
 
-    private static JSONArray getJaSupplies() {
+    public static synchronized JSONArray getJaSupplies() {
         if(jaSupplies == null){
             String jaString = Disk.readStringFromAssets(FILENAME_SUPPLIES, App.get());
             try{
@@ -74,6 +78,7 @@ public class PairFactory {
 
     private static JSONObject getJOPair(int type, int key){
         JSONArray ja;
+        JSONObject jo = null;
         switch (type){
             case Pair.TYPE_BUILDING:{
                 ja = getJaBuildings();
@@ -87,19 +92,19 @@ public class PairFactory {
         }
         for(int i=0;i<ja.length();i++){
             try{
-                JSONObject jo = ja.getJSONObject(i);
+                jo = ja.getJSONObject(i);
                 if(jo.optInt("key",-1)==key){
-                    return jo;
+                    break;
                 }
             }catch (JSONException e){
                 e.printStackTrace();
             }
         }
-        return null;
+        return jo;
     }
 
-    public static List<Pair> getPrice(Pair pair) {
-        List<Pair> list = new ArrayList<>();
+    public static SparseArray<Pair> getPrice(Pair pair) {
+        SparseArray<Pair> list = new SparseArray<>();
         try {
             JSONArray joPairs = getJoPrice().getJSONArray(pair.getType() + "");
             JSONObject joPair = joPairs.getJSONObject(pair.getKey());
@@ -108,7 +113,7 @@ public class PairFactory {
             }
             JSONArray _joPrices = joPair.getJSONArray("price");
             for(int i=0;i<_joPrices.length();i++){
-                list.add(PairFactory.newInstance(_joPrices.getJSONObject(i)));
+                list.put(_joPrices.getJSONObject(i).getInt("key"), PairFactory.newInstance(_joPrices.getJSONObject(i)));
             }
 
         } catch (JSONException e) {
@@ -125,7 +130,7 @@ public class PairFactory {
         long growth = jo.optLong("growth",-1);
         String title = jo.optString("title");
         String desc = jo.optString("desc");
-        if(type==-1||key==-1||value==-1|growth==-1){
+        if(key==-1||value==-1|growth==-1){
             return null;
         }
         switch (type){

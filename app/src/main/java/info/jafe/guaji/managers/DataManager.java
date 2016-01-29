@@ -3,6 +3,7 @@ package info.jafe.guaji.managers;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,17 +72,17 @@ public class DataManager {
         }
     }
 
-    public void saveAll(List<Pair> pairs){
-        for(Pair pair:pairs){
-            save(pair);
+    public void saveAll(SparseArray<Pair> pairs){
+        for(int i=0;i<pairs.size();i++){
+            save(pairs.valueAt(i));
         }
     }
 
-    public List<Pair> readAll(int type){
+    public SparseArray<Pair> readAll(int type){
         String tableName = TABLE_NAMES[type];
         String sql = "select * from "+tableName;
         Cursor c = db.rawQuery(sql,null);
-        List<Pair> list = new ArrayList<>();
+        SparseArray<Pair> list = new SparseArray<>();
         while(c.moveToNext()){
             int key = c.getInt(c.getColumnIndex("key"));
             long value = c.getLong(c.getColumnIndex("value"));
@@ -89,7 +90,8 @@ public class DataManager {
             Pair pair = PairFactory.newInstance(type, key);
             pair.setValue(value);
             pair.setGrowth(growth);
-            list.add(pair);
+//            list.add(pair);
+            list.put(key,pair);
         }
         return list;
     }

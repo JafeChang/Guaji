@@ -1,5 +1,6 @@
 package info.jafe.guaji.adapter;
 
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import info.jafe.guaji.utils.Strs;
 public class BuildingAdapter extends AbstractsAdapter {
 
     private ViewHolder holder;
-    public BuildingAdapter(List<Pair> list){
+    public BuildingAdapter(SparseArray<Pair> list){
         super(list);
     }
 
@@ -32,7 +33,7 @@ public class BuildingAdapter extends AbstractsAdapter {
                 mInflater = LayoutInflater.from(MainActivity.instance);
             }
             convertView = mInflater.inflate(R.layout.unit_building, null,false);
-            holder.tvKey = (TextView)convertView.findViewById(R.id.building_unit_key);
+            holder.tvTitle = (TextView)convertView.findViewById(R.id.building_unit_title);
             holder.tvValue = (TextView)convertView.findViewById(R.id.building_unit_value);
             holder.imBuilding = (ImageView)convertView.findViewById(R.id.building_unit_img);
             convertView.setTag(holder);
@@ -41,7 +42,7 @@ public class BuildingAdapter extends AbstractsAdapter {
         }
 
         Pair pair = (Pair) getItem(position);
-        holder.tvKey.setText(app.getKeyStr(pair));//TODO
+        holder.tvTitle.setText(pair.getTitle());
         holder.tvValue.setText(Strs.f(pair.getValue()));
         return convertView;
     }
@@ -49,7 +50,7 @@ public class BuildingAdapter extends AbstractsAdapter {
 
     class ViewHolder{
         ImageView imBuilding;
-        TextView tvKey;
+        TextView tvTitle;
         TextView tvValue;
         ViewHolder(){}
     }

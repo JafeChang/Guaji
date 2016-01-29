@@ -1,5 +1,6 @@
 package info.jafe.guaji.adapter;
 
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import info.jafe.guaji.utils.Strs;
 public class SuppliesAdapter extends AbstractsAdapter{
     private ViewHolder holder;
 
-    public SuppliesAdapter(List<Pair> list) {
+    public SuppliesAdapter(SparseArray<Pair> list) {
        super(list);
     }
 
@@ -33,7 +34,7 @@ public class SuppliesAdapter extends AbstractsAdapter{
                 mInflater = LayoutInflater.from(MainActivity.instance);
             }
             convertView = mInflater.inflate(R.layout.unit_supplies, null,false);
-            holder.tvKey = (TextView)convertView.findViewById(R.id.supplies_unit_key);
+            holder.tvTitle = (TextView)convertView.findViewById(R.id.supplies_unit_title);
             holder.tvValue = (TextView)convertView.findViewById(R.id.supplies_unit_value);
             holder.tvGrowth = (TextView)convertView.findViewById(R.id.supplies_unit_growth);
             convertView.setTag(holder);
@@ -42,14 +43,14 @@ public class SuppliesAdapter extends AbstractsAdapter{
         }
 
         Pair pair = (Pair) getItem(position);
-        holder.tvKey.setText(app.getKeyStr(pair));
+        holder.tvTitle.setText(pair.getTitle());
         holder.tvValue.setText(Strs.f(pair.getValue()));
         holder.tvGrowth.setText(Strs.f(pair.getGrowth()));
         return convertView;
     }
 
     class ViewHolder{
-        TextView tvKey;
+        TextView tvTitle;
         TextView tvValue;
         TextView tvGrowth;
         ViewHolder(){}

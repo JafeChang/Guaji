@@ -1,5 +1,6 @@
 package info.jafe.guaji.adapter.abstracts;
 
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,8 @@ import info.jafe.guaji.app.App;
  * Created by jianfei on 2016/1/22.
  */
 public abstract class AbstractsAdapter <Pair>extends BaseAdapter{
-    protected List <Pair> list;
+    protected SparseArray<Pair> list;
     protected LayoutInflater mInflater;
-    protected App app;
 
     @Override
     public int getCount() {
@@ -24,7 +24,7 @@ public abstract class AbstractsAdapter <Pair>extends BaseAdapter{
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return list.valueAt(position);
     }
 
     @Override
@@ -35,9 +35,8 @@ public abstract class AbstractsAdapter <Pair>extends BaseAdapter{
     @Override
     public abstract View getView(int position, View convertView, ViewGroup parent);
 
-    public AbstractsAdapter(List<Pair> list){
+    public AbstractsAdapter(SparseArray<Pair> list){
         this.list = list;
-        this.app = App.get();
     }
 
 

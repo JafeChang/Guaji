@@ -4,90 +4,103 @@
     "key": "0",
     "value": "0",
     "growth": "0",
-    "desc": "木材"
+    "desc": "木材",
+    "type": "1"
   },
   {
     "title": "石头",
     "key": "1",
     "value": "0",
     "growth": "0",
-    "desc": "石头"
+    "desc": "石头",
+    "type": "1"
   },
   {
     "title": "水",
     "key": "2",
     "value": "0",
     "growth": "0",
-    "desc": "水"
+    "desc": "水",
+    "type": "1"
   },
   {
     "title": "食物",
     "key": "3",
     "value": "0",
     "growth": "0",
-    "desc": "食物"
+    "desc": "食物",
+    "type": "1"
   },
   {
     "title": "小麦",
     "key": "4",
     "value": "0",
     "growth": "0",
-    "desc": "小麦"
+    "desc": "小麦",
+    "type": "1"
   },
   {
     "title": "鱼",
     "key": "5",
     "value": "0",
     "growth": "0",
-    "desc": "鱼"
+    "desc": "鱼",
+    "type": "1"
   },
   {
     "title": "铜矿石",
     "key": "6",
     "value": "0",
     "growth": "0",
-    "desc": "铜矿石"
+    "desc": "铜矿石",
+    "type": "1"
   },
   {
     "title": "铁矿石",
     "key": "7",
     "value": "0",
     "growth": "0",
-    "desc": "铁矿石"
+    "desc": "铁矿石",
+    "type": "1"
   },
   {
     "title": "煤",
     "key": "8",
     "value": "0",
     "growth": "0",
-    "desc": "煤"
+    "desc": "煤",
+    "type": "1"
   },
   {
     "title": "炭",
     "key": "9",
     "value": "0",
     "growth": "0",
-    "desc": "炭"
+    "desc": "炭",
+    "type": "1"
   },
   {
     "title": "铜",
     "key": "10",
     "value": "0",
     "growth": "0",
-    "desc": "铜"
+    "desc": "铜",
+    "type": "1"
   },
   {
     "title": "铁",
     "key": "11",
     "value": "0",
     "growth": "0",
-    "desc": "铁"
+    "desc": "铁",
+    "type": "1"
   },
   {
     "title": "钢",
     "key": "12",
     "value": "0",
     "growth": "0",
-    "desc": "钢"
+    "desc": "钢",
+    "type": "1"
   }
 ]

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,15 +29,15 @@ import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
  * create an instance of this fragment.
  */
 public class SuppliesFragment extends Fragment implements View.OnClickListener{
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private static SuppliesFragment instance;
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private final int type = Pair.TYPE_SUPPLIES;
 
     private View view;
 
@@ -44,7 +45,7 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
     private ListView suppliesListView;
 
     private SuppliesAdapter suppliesAdapter;
-    private List<Pair> suppliesList;
+    private SparseArray<Pair> suppliesList;
 
 
     private OnFragmentInteractionListener mListener;
@@ -61,7 +62,6 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
      * @param param2 Parameter 2.
      * @return A new instance of fragment SuppliesFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static synchronized SuppliesFragment newInstance(String param1, String param2) {
         if(instance == null){
             instance = new SuppliesFragment();
@@ -103,7 +103,6 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
         suppliesListView.setAdapter(suppliesAdapter);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -128,24 +127,19 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private void add(Pair pair){
-        suppliesList.add(pair);
-        suppliesAdapter.notifyDataSetChanged();
-    }
-
     private int temp = 0;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.supplies_button:{
-                if(temp<4){
-                    Pair pair = PairFactory.newInstance(Pair.TYPE_SUPPLIES,temp);
-                    App.get().addPair(pair);
-    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
-    //                Logs.d(list.size() + "");
-                    suppliesAdapter.notifyDataSetChanged();
-                    temp++;
-                }
+//                if(temp<4){
+//                    Pair pair = PairFactory.newInstance(Pair.TYPE_SUPPLIES,temp);
+//                    App.get().addPair(pair);
+//    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
+//    //                Logs.d(list.size() + "");
+//                    suppliesAdapter.notifyDataSetChanged();
+//                    temp++;
+//                }
                 break;
             }
         }
