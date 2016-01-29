@@ -7,6 +7,7 @@ var Pair = function(type,title,key,val,growth,desc){
 	this.desc = desc;
 }
 
+
 var parsePair = function(jsonPair){
 	title = jsonPair.title;
 	key = jsonPair.key;
@@ -27,7 +28,9 @@ var jsonToNode = function(jsonPair,ele){
 	children = ele.children;
 	for(i=0;i<children.length;i++){
 		child = children[i];
-		if(child.getAttribute('ele')==='title'){
+		if(child.getAttribute('ele')==='type'){
+			child.value = jsonPair.type;
+		}else if(child.getAttribute('ele')==='title'){
 			child.value = jsonPair.title;
 		}else if(child.getAttribute('ele')==='key'){
 			child.value = jsonPair.key;
@@ -47,7 +50,9 @@ var nodeToJson = function(ele){
 	children = ele.children;
 	for(i=0;i<children.length;i++){
 		child = children[i];
-		if(child.getAttribute('ele')==='title'){
+		if(child.getAttribute('ele')==='type'){
+			jsonPair.type = child.value;
+		}else if(child.getAttribute('ele')==='title'){
 			jsonPair.title = child.value;
 		}else if(child.getAttribute('ele')==='key'){
 			jsonPair.key = child.value;
@@ -59,7 +64,6 @@ var nodeToJson = function(ele){
 			jsonPair.desc = child.value;
 		}
 	}
-	jsonPair.type = getType();
 	return jsonPair;
 }
 
@@ -84,7 +88,7 @@ var isEmptyNode = function(ele){
 	console.log(ele);
 	children = ele.children;
 	for(var i=0;i<children.length;i++){
-		if(!isGood(children[i].value)){
+		if(!isGood(children[i].value)&&children[i].type!='checkbox'){
 			return true
 		}
 	}
@@ -95,6 +99,37 @@ var isGood = function(text){
 	return text?text.length>0:false;
 }
 
-var getType = function(){
-	return f("typeinput").value;
+var addPrice = function(jsonPrice, type, key, value){
+	
 }
+
+var getPrice = function(bt){
+	var ele = bt.parentNode;
+	console.log(ele);
+	var json = nodeToJson(ele);
+	jsonPairs = parsePairs(f("jsonsrc").value);
+	for(var i=0;i<jsonPairs.length;i++){
+		var jsonPair = jsonPairs[i];
+		if(jsonPair.type===json.type&&json.key===jsonPair.key){
+			console.log(jsonPair);
+			return jsonPair.price;
+		} 
+	}
+	return null;
+}
+
+var getProductions = function(bt){
+	var ele = bt.parentNode;
+	console.log(ele);
+	var json = nodeToJson(ele);
+	jsonPairs = parsePairs(f("jsonsrc").value);
+	for(var i=0;i<jsonPairs.length;i++){
+		var jsonPair = jsonPairs[i];
+		if(jsonPair.type===json.type&&json.key===jsonPair.key){
+			console.log(jsonPair);
+			return jsonPair.productions;
+		} 
+	}
+	return null;
+}
+
