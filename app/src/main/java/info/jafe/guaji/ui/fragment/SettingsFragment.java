@@ -15,6 +15,7 @@ import info.jafe.guaji.R;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.utils.Hand;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
+import info.jafe.guaji.utils.Logs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,13 +111,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.setting_reset:{
-                Hand.t("reset");
-                App.get().reset();
+//                Hand.t("reset");
+//                App.get().reset();
+                test();
             }
             default:{
                 break;
             }
         }
     }
+
+    private void test(){
+        String s[] = "sss".split(";");
+        String ss[] = "".split(";");
+        for(String str:s){
+            Logs.d(str);
+        }
+        Logs.d("-------------");
+        for(String str:ss){
+            Logs.d(str);
+        }
+
+    }
+
 
 }
