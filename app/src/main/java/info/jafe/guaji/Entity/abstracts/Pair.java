@@ -5,6 +5,8 @@ import android.util.SparseArray;
 
 import java.util.List;
 
+import info.jafe.guaji.Entity.Price;
+
 /**
  * Created by JafeChang on 16/1/14.
  */
@@ -17,8 +19,8 @@ public abstract class Pair {
     protected String desc = "";
     protected String title = "";
     protected int index = -1;
-    protected SparseArray<Pair> price;
-    protected SparseArray<Pair> productions;
+    protected List<Price> prices;
+    protected List<Price> productions;
 
     protected Pair(int key, long value, long growth, String title, String desc){
         this.key = key;
@@ -78,8 +80,8 @@ public abstract class Pair {
 
     abstract public int getType();
 
-    public void setPrice(SparseArray<Pair> price) {
-        this.price = price;
+    public void setPrice(List<Price> prices) {
+        this.prices = prices;
     }
 
     public String getTitle(){return this.title;}
@@ -88,15 +90,15 @@ public abstract class Pair {
         this.title = title;
     }
 
-    public SparseArray<Pair> getPrice() {
-        return this.price;
+    public List<Price> getPrice() {
+        return this.prices;
     }
 
-    public void setProductions(SparseArray<Pair> productions){
+    public void setProductions(List<Price> productions){
         this.productions = productions;
     }
 
-    public SparseArray<Pair> getProductions(){
+    public List<Price> getProductions(){
         return this.productions;
     }
 
