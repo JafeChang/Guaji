@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.jafe.guaji.Entity.Building;
+import info.jafe.guaji.Entity.Price;
 import info.jafe.guaji.Entity.Supplies;
 import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.app.App;
@@ -19,12 +20,16 @@ import info.jafe.guaji.utils.Disk;
  * Created by jianfei on 2016/1/26.
  */
 public class PairFactory {
-    private static JSONObject joPrice;
-    private static JSONArray jaBuildings;
-    private static JSONArray jaSupplies;
-    private static final String FILENAME_PRICE = "price.json";
-    private static final String FILENAME_BUILDING = "building.json";
-    private static final String FILENAME_SUPPLIES = "supplies.json";
+//    private static JSONObject joPrice;
+//    private static JSONArray jaBuildings;
+//    private static JSONArray jaSupplies;
+    private static JSONArray jaPairs;
+    private static SparseArray<Building> buildings;
+    private static SparseArray<Supplies> supplies;
+//    private static final String FILENAME_PRICE = "price.json";
+//    private static final String FILENAME_BUILDING = "building.json";
+//    private static final String FILENAME_SUPPLIES = "supplies.json";
+    private static final String FILENAME_PAIRS = "pairs.json";
 
     public static Pair newInstance(int type,int key){
         Pair pair = jsonToPair(getJOPair(type, key));
@@ -40,41 +45,60 @@ public class PairFactory {
         return jsonToPair(jo);
     }
 
-    private static JSONObject getJoPrice() {
-        if (joPrice == null) {
-            String joString = Disk.readStringFromAssets(FILENAME_PRICE, App.get());
-            try {
-                joPrice = new JSONObject(joString);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return joPrice;
-    }
-
-    public static synchronized JSONArray getJaBuildings() {
-        if(jaBuildings == null){
-            String jaString = Disk.readStringFromAssets(FILENAME_BUILDING, App.get());
+    private static synchronized JSONArray getJaPairs(){
+        if(jaPairs == null){
+            String strJaPairs = Disk.readStringFromAssets(FILENAME_PAIRS,App.get());
             try{
-                jaBuildings = new JSONArray(jaString);
+                jaPairs = new JSONArray((strJaPairs));
             }catch (JSONException e){
                 e.printStackTrace();
             }
         }
-        return jaBuildings;
+        return jaPairs;
     }
 
-    public static synchronized JSONArray getJaSupplies() {
-        if(jaSupplies == null){
-            String jaString = Disk.readStringFromAssets(FILENAME_SUPPLIES, App.get());
-            try{
-                jaSupplies = new JSONArray(jaString);
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
+    private static synchronized  SparseArray<Pair> getBuildings(){
+        if(buildings == null){
+            JSONArray array = getJaPairs();
+
         }
-        return jaSupplies;
     }
+
+//    private static JSONObject getJoPrice() {
+//        if (joPrice == null) {
+//            String joString = Disk.readStringFromAssets(FILENAME_PRICE, App.get());
+//            try {
+//                joPrice = new JSONObject(joString);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return joPrice;
+//    }
+//
+//    public static synchronized JSONArray getJaBuildings() {
+//        if(jaBuildings == null){
+//            String jaString = Disk.readStringFromAssets(FILENAME_BUILDING, App.get());
+//            try{
+//                jaBuildings = new JSONArray(jaString);
+//            }catch (JSONException e){
+//                e.printStackTrace();
+//            }
+//        }
+//        return jaBuildings;
+//    }
+//
+//    public static synchronized JSONArray getJaSupplies() {
+//        if(jaSupplies == null){
+//            String jaString = Disk.readStringFromAssets(FILENAME_SUPPLIES, App.get());
+//            try{
+//                jaSupplies = new JSONArray(jaString);
+//            }catch (JSONException e){
+//                e.printStackTrace();
+//            }
+//        }
+//        return jaSupplies;
+//    }
 
     private static JSONObject getJOPair(int type, int key){
         JSONArray ja;
@@ -123,13 +147,19 @@ public class PairFactory {
         return list;
     }
 
+    private static List<Price> parsePrice(String strPrices){
+        String splits[] = strPrices.split(";");
+    }
+
     private static Pair jsonToPair(JSONObject jo){
         int type = jo.optInt("type",-1);
         int key = jo.optInt("key",-1);
         long value = jo.optLong("value", -1);
-        long growth = jo.optLong("growth",-1);
+        long growth = jo.optLong("growth", -1);
         String title = jo.optString("title");
         String desc = jo.optString("desc");
+        String strPrices = jo.optString("price","");
+        String strProductions = jo.optString("productions","");
         if(key==-1||value==-1|growth==-1){
             return null;
         }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+div{margin:0;padding:0}
+#container{width:1500px;}
+#container .box1{width:580px;height:800px;float: left;}
+#container .box2{margin-left: 40px;width:880px;height:800px;float:left;}
+#jsonsrc{width: 100%;height: 794px}
+button{margin-top: 20px}
+</style>
+</head>
+<body>
+<div id="container">
+	<div class="box1">
+		<div  > 
+			<textarea id="jsonsrc" >[]</textarea>
+		</div>
+	</div>
+	<div class="box2">
+		<button onclick="read();"> &gt;&gt;&gt;</button>
+		<button onclick="addInputBar();"> +</button> 
+		<span>type</span>
+		<input id="typeinput" type="text" value="">
+		<br>
+		<div id="devide">
+			<div style="margin-top:20px">
+					<input type="text" value="title" ele="title" readonly="readonly">
+					<input type="text" value="key" style="width:100px" ele="key" readonly="readonly"/>
+					<input type="text" value="value" ele="value" readonly="readonly"/>
+					<input type="text" value="growth" ele="growth" readonly="readonly"/>
+					<input type="text" value="desc" ele="desc" readonly="readonly">
+				</div>
+			<div hidden>
+				<div id="pairsrc" style="margin-top:20px" totraverse="true">
+					<input type="text" value="" ele="title">
+					<input type="text" value="" style="width:100px" ele="key"/>
+					<input type="text" value="" ele="value"/>
+					<input type="text" value="" ele="growth"/>
+					<input type="text" value="" ele="desc">
+				</div>
+
+			</div>
+		</div>
+		<button onclick="traverseDiv(true)">&lt;&lt;&lt;</button>
+
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+	var f = function(idstr){
+		return document.getElementById(idstr);
+	}
+	var parse = function(){
+		jsonPairs = parsePairs(f("jsonsrc").value);
+
+	}
+	var current = 0;
+	var addInputBar = function(jsonPair){
+		dest = f("pairsrc").cloneNode(true);
+		dest.setAttribute("id","inputDiv"+current);
+		current++;
+		if(jsonPair){
+			jsonToNode(jsonPair,dest);
+		}
+		f("devide").appendChild(dest);
+
+	}
+	var read = function(){ 
+		traverseDiv(false);
+		jsonPairs = parsePairs(f("jsonsrc").value);
+		console.log(jsonPairs.length);
+		for(var i=0;i<jsonPairs.length;i++){
+			jsonPair = jsonPairs[i];
+			if(i===0){
+				f('typeinput').value=jsonPair.type;
+			}
+			console.log("i="+i+"/"+jsonPairs.length+", json="+jsonPair);
+			addInputBar(jsonPair);
+		}
+	}
+
+	var traverseDiv = function(flag){//true:<<<;false:>>>
+		dev = f("devide");
+		var children = dev.children;
+		var jsonArray=[];
+		var toDelArray = [];
+		for(var i=0;i<children.length;i++){
+			console.log("traverseDiv@i:"+i+",flag="+flag+",length="+children.length);
+			var child = children[i];
+			if(child.getAttribute("totraverse")){
+				if(flag&&!isEmptyNode(child)){
+					console.log("pass");
+					var jsonPair = nodeToJson(child);
+					addJsonToArray(jsonArray,jsonPair);
+				}else if(isEmptyNode(child)){ 
+					toDelArray.push(child);
+					// child.parentNode.removeChild(child);
+				}
+			}
+		} 
+		for(var i=0;i<toDelArray.length;i++){
+			toDelArray[i].parentNode.removeChild(toDelArray[i]);
+		} 
+		if(flag){
+			var text = jsonarrayToString(jsonArray);
+			textNode = f('jsonsrc');
+			textNode.value = text;
+		}
+	}
+	
+</script>
+<script type="text/javascript" src="js/parsePair.js"></script>
+</html>
