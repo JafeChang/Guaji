@@ -19,8 +19,6 @@ public abstract class Pair {
     protected String desc = "";
     protected String title = "";
     protected int index = -1;
-    protected List<Price> prices;
-    protected List<Price> productions;
 
     protected Pair(int key, long value, long growth, String title, String desc){
         this.key = key;
@@ -80,26 +78,11 @@ public abstract class Pair {
 
     abstract public int getType();
 
-    public void setPrice(List<Price> prices) {
-        this.prices = prices;
-    }
 
     public String getTitle(){return this.title;}
 
     public void setTitle(String title){
         this.title = title;
-    }
-
-    public List<Price> getPrice() {
-        return this.prices;
-    }
-
-    public void setProductions(List<Price> productions){
-        this.productions = productions;
-    }
-
-    public List<Price> getProductions(){
-        return this.productions;
     }
 
     public String toString() {

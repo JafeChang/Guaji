@@ -24,26 +24,52 @@ public class PairFactory {
 //    private static JSONArray jaBuildings;
 //    private static JSONArray jaSupplies;
     private static JSONArray jaPairs;
-    private static SparseArray<Building> buildings;
-    private static SparseArray<Supplies> supplies;
+    private static SparseArray<Pair> buildings;
+    private static SparseArray<List<Price>> buildingsPrices;
+    private static SparseArray<List<Price>> buildingsProductions;
+    private static SparseArray<Pair> supplies;
+    private static SparseArray<List<Price>> suppliesPrices;
+    private static SparseArray<List<Price>> suppliesProductions;
 //    private static final String FILENAME_PRICE = "price.json";
 //    private static final String FILENAME_BUILDING = "building.json";
 //    private static final String FILENAME_SUPPLIES = "supplies.json";
     private static final String FILENAME_PAIRS = "pairs.json";
 
+    /**
+     * 从模板中复制
+     * @param type
+     * @param key
+     * @return
+     */
     public static Pair newInstance(int type,int key){
-        Pair pair = jsonToPair(getJOPair(type, key));
-        pair.setPrice(getPrice(pair));
+        Pair ePair = null;
+        Pair pair = null;
+        switch (type){
+            case Pair.TYPE_BUILDING:{
+                ePair = buildings.get(key);
+                pair = new Building(type,key,ePair.getGrowth(),ePair.getTitle(),ePair.getDesc());
+                break;
+            }
+            case Pair.TYPE_SUPPLIES:{
+                ePair = supplies.get(key);
+                pair = new Supplies(type,key,ePair.getGrowth(),ePair.getTitle(),ePair.getDesc());
+                break;
+            }
+            default:break;
+        }
+        if(ePair == null){
+            return null;
+        }
         return pair;
     }
 
-    public static Pair newInstance(int arguments[]){
-        return newInstance(arguments[0],arguments[1]);
-    }
-
-    private static Pair newInstance(JSONObject jo){
-        return jsonToPair(jo);
-    }
+//    public static Pair newInstance(int arguments[]){
+//        return newInstance(arguments[0], arguments[1]);
+//    }
+//
+//    private static Pair newInstance(JSONObject jo){
+//        return jsonToPair(jo);
+//    }
 
     private static synchronized JSONArray getJaPairs(){
         if(jaPairs == null){
@@ -59,9 +85,40 @@ public class PairFactory {
 
     private static synchronized  SparseArray<Pair> getBuildings(){
         if(buildings == null){
+            buildings = new SparseArray<>();
             JSONArray array = getJaPairs();
-
+            for(int i=0;i<array.length();i++){
+                try{
+                    JSONObject jo = array.getJSONObject(i);
+                    Pair pair = jsonToPair(jo);
+                    if(pair!=null){
+                        buildings.put(pair.getKey(), pair);
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
         }
+        return buildings;
+    }
+
+    private static synchronized  SparseArray<Pair> getSupplies(){
+        if(supplies == null){
+            supplies = new SparseArray<>();
+            JSONArray array = getJaPairs();
+            for(int i=0;i<array.length();i++){
+                try{
+                    JSONObject jo = array.getJSONObject(i);
+                    Pair pair = jsonToPair(jo);
+                    if(pair!=null){
+                        supplies.put(pair.getKey(), pair);
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        return supplies;
     }
 
 //    private static JSONObject getJoPrice() {
@@ -100,58 +157,69 @@ public class PairFactory {
 //        return jaSupplies;
 //    }
 
-    private static JSONObject getJOPair(int type, int key){
-        JSONArray ja;
-        JSONObject jo = null;
-        switch (type){
-            case Pair.TYPE_BUILDING:{
-                ja = getJaBuildings();
+//    private static JSONObject getJOPair(int type, int key){
+//        JSONArray ja;
+//        JSONObject jo = null;
+//        switch (type){
+//            case Pair.TYPE_BUILDING:{
+//                ja = getJaBuildings();
+//                break;
+//            }
+//            case Pair.TYPE_SUPPLIES:{
+//                ja = getJaSupplies();
+//                break;
+//            }
+//            default:return null;
+//        }
+//        for(int i=0;i<ja.length();i++){
+//            try{
+//                jo = ja.getJSONObject(i);
+//                if(jo.optInt("key",-1)==key){
+//                    break;
+//                }
+//            }catch (JSONException e){
+//                e.printStackTrace();
+//            }
+//        }
+//        return jo;
+//    }
+
+//    public static SparseArray<Pair> getPrice(Pair pair) {
+//        SparseArray<Pair> list = new SparseArray<>();
+//        try {
+//            JSONArray joPairs = getJoPrice().getJSONArray(pair.getType() + "");
+//            JSONObject joPair = joPairs.getJSONObject(pair.getKey());
+//            if (joPair.getInt("key") != pair.getKey()) {
+//                throw new JSONException("错误的JSON格式,文件\"" + FILENAME_PRICE + "\", type=" + pair.getType() + ", key=" + joPair.getInt("key") + ",传入" + pair.getKey());
+//            }
+//            JSONArray _joPrices = joPair.getJSONArray("price");
+//            for(int i=0;i<_joPrices.length();i++){
+//                list.put(_joPrices.getJSONObject(i).getInt("key"), PairFactory.newInstance(_joPrices.getJSONObject(i)));
+//            }
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return list;
+//    }
+
+    private static List<Price> parsePrice(String strPrices){
+        List<Price> list = new ArrayList<>();
+        String splits[] = strPrices.split(";");
+        for(String str:splits){
+            String s[] = str.split(",");
+            if(s.length<3){
                 break;
             }
-            case Pair.TYPE_SUPPLIES:{
-                ja = getJaSupplies();
-                break;
-            }
-            default:return null;
-        }
-        for(int i=0;i<ja.length();i++){
-            try{
-                jo = ja.getJSONObject(i);
-                if(jo.optInt("key",-1)==key){
-                    break;
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-        }
-        return jo;
-    }
-
-    public static SparseArray<Pair> getPrice(Pair pair) {
-        SparseArray<Pair> list = new SparseArray<>();
-        try {
-            JSONArray joPairs = getJoPrice().getJSONArray(pair.getType() + "");
-            JSONObject joPair = joPairs.getJSONObject(pair.getKey());
-            if (joPair.getInt("key") != pair.getKey()) {
-                throw new JSONException("错误的JSON格式,文件\"" + FILENAME_PRICE + "\", type=" + pair.getType() + ", key=" + joPair.getInt("key") + ",传入" + pair.getKey());
-            }
-            JSONArray _joPrices = joPair.getJSONArray("price");
-            for(int i=0;i<_joPrices.length();i++){
-                list.put(_joPrices.getJSONObject(i).getInt("key"), PairFactory.newInstance(_joPrices.getJSONObject(i)));
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+            Price price = new Price(Integer.parseInt(s[0]),Integer.parseInt(s[1]),Long.parseLong(s[2]));
+            list.add(price);
         }
         return list;
     }
 
-    private static List<Price> parsePrice(String strPrices){
-        String splits[] = strPrices.split(";");
-    }
-
     private static Pair jsonToPair(JSONObject jo){
+        Pair pair = null;
         int type = jo.optInt("type",-1);
         int key = jo.optInt("key",-1);
         long value = jo.optLong("value", -1);
@@ -160,18 +228,27 @@ public class PairFactory {
         String desc = jo.optString("desc");
         String strPrices = jo.optString("price","");
         String strProductions = jo.optString("productions","");
+        List<Price> prices = parsePrice(strPrices);
+        List<Price> productions = parsePrice(strProductions);
         if(key==-1||value==-1|growth==-1){
             return null;
         }
         switch (type){
             case Pair.TYPE_BUILDING:{
-                return new Building(key,value,growth, title, desc);
+                pair = new Building(key,value,growth, title, desc);
+                buildingsPrices.put(key,prices);
+                buildingsProductions.put(key,productions);
+                break;
             }
             case Pair.TYPE_SUPPLIES:{
-                return new Supplies(key,value,growth, title, desc);
+                pair = new Supplies(key,value,growth, title, desc);
+                suppliesPrices.put(key,prices);
+                suppliesProductions.put(key,productions);
+                break;
             }
-            default:return null;
+            default:break;
         }
+        return pair;
     }
 
 
