@@ -44,7 +44,7 @@ public abstract class Pair {
         this.value = value;
     }
 
-    public void grow(int times) {
+    public void grow(long times) {
         this.value += growth*times;
     }
 

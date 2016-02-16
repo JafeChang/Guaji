@@ -18,10 +18,10 @@ import info.jafe.guaji.app.App;
 public class DataManager {
     private static DataManager instance;
     private final String TABLE_NAMES[] = {  "building","supplies"};
-    private final String databaseName = "guajidb.db";
+//    private final String databaseName = "guajidb.db";
     private SQLiteDatabase db;
     private DataManager(){
-        db = App.get().openOrCreateDatabase(databaseName, Context.MODE_PRIVATE,null);
+        db = App.get().openOrCreateDatabase("guajidb.db", Context.MODE_PRIVATE,null);
         db.execSQL("create table if not exists "+TABLE_NAMES[Pair.TYPE_BUILDING]+" (id integer primary key autoincrement, key integer, value integer,growth integer )");
         db.execSQL("create table if not exists "+TABLE_NAMES[Pair.TYPE_SUPPLIES]+" (id integer primary key autoincrement, key integer, value integer,growth integer )");
     }
@@ -43,7 +43,7 @@ public class DataManager {
         long growth = pair.getGrowth();
         String tableName = TABLE_NAMES[pair.getType()];
         String sql = "insert into "+tableName+" values(null,?,?,?)";
-        db.execSQL(sql,new String[]{key+"",value+"",growth+""});
+        db.execSQL(sql, new String[]{key + "", value + "", growth + ""});
     }
 
     private boolean isHad(Pair pair){
@@ -52,7 +52,9 @@ public class DataManager {
         String sql = "select count(*) from "+tableName+" where key=?";
         Cursor c = db.rawQuery(sql,new String[]{key+""});
         c.moveToNext();
-        return c.getInt(0)>0;
+        boolean r = c.getInt(0)>0;
+        c.close();
+        return r;
     }
 
     private void set(Pair pair){
@@ -78,11 +80,10 @@ public class DataManager {
         }
     }
 
-    public SparseArray<Pair> readAll(int type){
+    public void readAll(int type, SparseArray<Pair> list){
         String tableName = TABLE_NAMES[type];
         String sql = "select * from "+tableName;
         Cursor c = db.rawQuery(sql,null);
-        SparseArray<Pair> list = new SparseArray<>();
         while(c.moveToNext()){
             int key = c.getInt(c.getColumnIndex("key"));
             long value = c.getLong(c.getColumnIndex("value"));
@@ -93,7 +94,8 @@ public class DataManager {
 //            list.add(pair);
             list.put(key,pair);
         }
-        return list;
+        c.close();
+//        return list;
     }
 
     public void close(){

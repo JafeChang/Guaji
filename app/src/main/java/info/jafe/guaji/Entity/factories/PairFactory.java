@@ -42,32 +42,31 @@ public class PairFactory {
      * @return
      */
     public static Pair newInstance(int type,int key){
-        Pair ePair = null;
-        Pair pair = null;
+        Pair ePair;
+        Pair pair;
         switch (type){
             case Pair.TYPE_BUILDING:{
-                ePair = buildings.get(key);
-                pair = new Building(type,key,ePair.getGrowth(),ePair.getTitle(),ePair.getDesc());
+                ePair = getBuildings().get(key);
+                pair = new Building(key,ePair.getValue(),ePair.getGrowth(),ePair.getTitle(),ePair.getDesc());
                 break;
             }
             case Pair.TYPE_SUPPLIES:{
-                ePair = supplies.get(key);
-                pair = new Supplies(type,key,ePair.getGrowth(),ePair.getTitle(),ePair.getDesc());
+                ePair = getSupplies().get(key);
+                pair = new Supplies(key,ePair.getValue(),ePair.getGrowth(),ePair.getTitle(),ePair.getDesc());
                 break;
             }
-            default:break;
-        }
-        if(ePair == null){
-            return null;
+            default:{
+                throw new IllegalArgumentException("wrong pair type");
+            }
         }
         return pair;
     }
 
-//    public static Pair newInstance(int arguments[]){
-//        return newInstance(arguments[0], arguments[1]);
+//    public static Pair new Instance(int arguments[]){
+//        return new Instance(arguments[0], arguments[1]);
 //    }
 //
-//    private static Pair newInstance(JSONObject jo){
+//    private static Pair new Instance(JSONObject jo){
 //        return jsonToPair(jo);
 //    }
 
@@ -75,7 +74,7 @@ public class PairFactory {
         if(jaPairs == null){
             String strJaPairs = Disk.readStringFromAssets(FILENAME_PAIRS,App.get());
             try{
-                jaPairs = new JSONArray((strJaPairs));
+                jaPairs = new JSONArray(strJaPairs);
             }catch (JSONException e){
                 e.printStackTrace();
             }
@@ -90,6 +89,9 @@ public class PairFactory {
             for(int i=0;i<array.length();i++){
                 try{
                     JSONObject jo = array.getJSONObject(i);
+                    if(jo.optInt("type",-1)!=Pair.TYPE_BUILDING){
+                        continue;
+                    }
                     Pair pair = jsonToPair(jo);
                     if(pair!=null){
                         buildings.put(pair.getKey(), pair);
@@ -109,6 +111,9 @@ public class PairFactory {
             for(int i=0;i<array.length();i++){
                 try{
                     JSONObject jo = array.getJSONObject(i);
+                    if(jo.optInt("type",-1)!=Pair.TYPE_SUPPLIES){
+                        continue;
+                    }
                     Pair pair = jsonToPair(jo);
                     if(pair!=null){
                         supplies.put(pair.getKey(), pair);
@@ -194,7 +199,7 @@ public class PairFactory {
 //            }
 //            JSONArray _joPrices = joPair.getJSONArray("price");
 //            for(int i=0;i<_joPrices.length();i++){
-//                list.put(_joPrices.getJSONObject(i).getInt("key"), PairFactory.newInstance(_joPrices.getJSONObject(i)));
+//                list.put(_joPrices.getJSONObject(i).getInt("key"), PairFactory.new Instance(_joPrices.getJSONObject(i)));
 //            }
 //
 //        } catch (JSONException e) {
@@ -203,6 +208,45 @@ public class PairFactory {
 //        }
 //        return list;
 //    }
+
+    private static synchronized SparseArray<List<Price>> getPrices(int type){
+        switch (type){
+            case Pair.TYPE_BUILDING:{
+                if(buildingsPrices==null){
+                    buildingsPrices = new SparseArray<>();
+                }
+                return buildingsPrices;
+            }
+            case Pair.TYPE_SUPPLIES:{
+                if(suppliesPrices == null){
+                    suppliesPrices = new SparseArray<>();
+                }
+                return suppliesPrices;
+            }
+            default:{
+                throw new IllegalArgumentException("wrong pair type");
+            }
+        }
+    }
+    private static synchronized SparseArray<List<Price>> getProductions(int type){
+        switch (type){
+            case Pair.TYPE_BUILDING:{
+                if(buildingsProductions==null){
+                    buildingsProductions = new SparseArray<>();
+                }
+                return buildingsProductions;
+            }
+            case Pair.TYPE_SUPPLIES:{
+                if(suppliesProductions == null){
+                    suppliesProductions = new SparseArray<>();
+                }
+                return suppliesProductions;
+            }
+            default:{
+                throw new IllegalArgumentException("wrong pair type");
+            }
+        }
+    }
 
     private static List<Price> parsePrice(String strPrices){
         List<Price> list = new ArrayList<>();
@@ -220,7 +264,7 @@ public class PairFactory {
 
     private static Pair jsonToPair(JSONObject jo){
         Pair pair = null;
-        int type = jo.optInt("type",-1);
+        int type = jo.optInt("type", -1);
         int key = jo.optInt("key",-1);
         long value = jo.optLong("value", -1);
         long growth = jo.optLong("growth", -1);
@@ -236,19 +280,52 @@ public class PairFactory {
         switch (type){
             case Pair.TYPE_BUILDING:{
                 pair = new Building(key,value,growth, title, desc);
-                buildingsPrices.put(key,prices);
-                buildingsProductions.put(key,productions);
+//                buildingsPrices.put(key,prices);
+//                buildingsProductions.put(key,productions);
                 break;
             }
             case Pair.TYPE_SUPPLIES:{
                 pair = new Supplies(key,value,growth, title, desc);
-                suppliesPrices.put(key,prices);
-                suppliesProductions.put(key,productions);
+//                suppliesPrices.put(key,prices);
+//                suppliesProductions.put(key,productions);
                 break;
             }
             default:break;
         }
+        getPrices(type).put(key,prices);
+        getProductions(type).put(key,productions);
         return pair;
+    }
+
+
+    public static List<Price> getPrice(Pair pair) {
+        return getPrice(pair.getType(), pair.getKey());
+    }
+
+    public static List<Price> getProduction(Pair pair) {
+        return getProduction(pair.getType(), pair.getKey());
+    }
+
+    public static List<Price> getPrice(int type, int key){
+        return getPrices(type).get(key);
+    }
+
+    public static List<Price> getProduction(int type, int key){
+        return getProductions(type).get(key);
+    }
+
+    public static int getKeysAmount(int type){
+        switch (type){
+            case Pair.TYPE_BUILDING:{
+                return getBuildings().size();
+            }
+            case Pair.TYPE_SUPPLIES:{
+                return getSupplies().size();
+            }
+            default:{
+                return 0;
+            }
+        }
     }
 
 

@@ -1,14 +1,12 @@
 package info.jafe.guaji.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import info.jafe.guaji.R;
@@ -21,7 +19,7 @@ import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SettingsFragment#newInstance} factory method to
+ * Use the {@link SettingsFragment#getInstance} factory method to
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment implements View.OnClickListener{
@@ -50,7 +48,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
      * @param param2 Parameter 2.
      * @return A new instance of fragment SettingsFragment.
      */
-    public static SettingsFragment newInstance(String param1, String param2) {
+    public static SettingsFragment getInstance(String param1, String param2) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -112,6 +110,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             case R.id.setting_reset:{
                 Hand.t("reset");
                 App.get().reset();
+
             }
             default:{
                 break;

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +24,7 @@ import info.jafe.guaji.utils.Logs;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, OnFragmentInteractionListener {
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
@@ -32,7 +32,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
 
     public static MainActivity instance;
     private App app;
-    private Handler handler;
     private FragmentManager fragmentManager;
     private Fragment fBuildings, fSupplies,fSettings;
     private RelativeLayout rlBuildings, rlSupplies, rlSettings;
@@ -55,8 +54,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         instance = this;
         init();
         initFragment();
-//        initNewly();
-//        initList();
         Logs.d("MainActivity");
     }
 
@@ -143,7 +140,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
             case R.id.supplies_layout:{
                 setSelectionStyle(rlSupplies,tvSupplies);
                 if(fSupplies == null){
-                    fSupplies = SuppliesFragment.newInstance("","");
+                    fSupplies = SuppliesFragment.getInstance("", "");
                     transaction.add(R.id.content,fSupplies);
                 }else {
                     transaction.show(fSupplies);
@@ -153,7 +150,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
             case R.id.settings_layout:{
                 setSelectionStyle(rlSettings,tvSettings);
                 if(fSettings == null){
-                    fSettings = SettingsFragment.newInstance("","");
+                    fSettings = SettingsFragment.getInstance("", "");
                     transaction.add(R.id.content,fSettings);
                 }else {
                     transaction.show(fSettings);
@@ -212,6 +209,11 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
     protected void onStop() {
         super.onStop();
         App.get().save();
+    }
+
+    public void refreshAdapter() {
+        BuildingFragment.getInstance("","").refresh();
+        SuppliesFragment.getInstance("","").refresh();
     }
 
     //    private void initNewly(){

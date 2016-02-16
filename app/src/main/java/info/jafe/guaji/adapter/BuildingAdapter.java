@@ -47,7 +47,6 @@ public class BuildingAdapter extends AbstractsAdapter {
         return convertView;
     }
 
-
     class ViewHolder{
         ImageView imBuilding;
         TextView tvTitle;

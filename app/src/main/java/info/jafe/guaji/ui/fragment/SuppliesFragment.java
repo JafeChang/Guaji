@@ -11,21 +11,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.List;
-
 import info.jafe.guaji.Entity.factories.PairFactory;
 import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.SuppliesAdapter;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
+import info.jafe.guaji.utils.Logs;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SuppliesFragment#newInstance} factory method to
+ * Use the {@link SuppliesFragment#getInstance} factory method to
  * create an instance of this fragment.
  */
 public class SuppliesFragment extends Fragment implements View.OnClickListener{
@@ -62,7 +61,7 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
      * @param param2 Parameter 2.
      * @return A new instance of fragment SuppliesFragment.
      */
-    public static synchronized SuppliesFragment newInstance(String param1, String param2) {
+    public static synchronized SuppliesFragment getInstance(String param1, String param2) {
         if(instance == null){
             instance = new SuppliesFragment();
             Bundle args = new Bundle();
@@ -132,8 +131,10 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.supplies_button:{
+                Pair pair = PairFactory.newInstance(0,1);
+                Logs.d(pair.toString());
 //                if(temp<4){
-//                    Pair pair = PairFactory.newInstance(Pair.TYPE_SUPPLIES,temp);
+//                    Pair pair = PairFactory.new Instance(Pair.TYPE_SUPPLIES,temp);
 //                    App.get().addPair(pair);
 //    //                List<Pair> list = DataManager.get().readAll(Pair.TYPE_SUPPLIES);
 //    //                Logs.d(list.size() + "");
@@ -142,6 +143,12 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
 //                }
                 break;
             }
+        }
+    }
+
+    public void refresh(){
+        if(suppliesAdapter!=null){
+            suppliesAdapter.notifyDataSetChanged();
         }
     }
 }

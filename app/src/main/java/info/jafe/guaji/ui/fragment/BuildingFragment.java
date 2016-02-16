@@ -8,10 +8,9 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-
-import java.util.List;
 
 import info.jafe.guaji.Entity.factories.PairFactory;
 import info.jafe.guaji.Entity.abstracts.Pair;
@@ -19,6 +18,7 @@ import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.BuildingAdapter;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
+import info.jafe.guaji.utils.Hand;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,7 +102,7 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
 
         bt.setOnClickListener(this);
         buildingListView.setAdapter(buildingAdapter);
-
+        buildingListView.setOnItemClickListener(new OnBuildingClickListener());
 
     }
 
@@ -147,7 +147,7 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
 //                    buildingAdapter.notifyDataSetChanged();
 //                }
 //                temp = temp>=4?0:temp+1;
-                for(int i=0;i<App.get().getKeysAmount(type);i++){
+                for(int i=0;i<PairFactory.getKeysAmount(type);i++){
                     Pair pair = App.get().getPair(type,i);
                     if(pair==null){
                         App.get().newPair(type,i);
@@ -158,10 +158,31 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
                     }
 
                 }
-                buildingAdapter.notifyDataSetChanged();
+                refresh();
                 break;
             }
         }
 
     }
+
+    public void refresh(){
+        if(buildingAdapter!=null){
+            buildingAdapter.notifyDataSetChanged();
+        }
+    }
+
+
 }
+
+class OnBuildingClickListener implements AdapterView.OnItemClickListener{
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        BuildingAdapter buildingAdapter = (BuildingAdapter) parent.getAdapter();
+        Pair pair = (Pair) buildingAdapter.getItem(position);
+        App.get().products(pair);
+        Hand.send(Hand.What.REFRESH_ADAPTER);
+    }
+}
+
