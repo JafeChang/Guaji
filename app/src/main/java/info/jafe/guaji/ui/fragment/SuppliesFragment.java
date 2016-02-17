@@ -72,6 +72,10 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
         return instance;
     }
 
+    public static SuppliesFragment get(){
+        return  getInstance("","");
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,8 +135,9 @@ public class SuppliesFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.supplies_button:{
-                Pair pair = PairFactory.newInstance(0,1);
-                Logs.d(pair.toString());
+                App.get().doInTick();
+//                Pair pair = PairFactory.newInstance(0,1);
+//                Logs.d(pair.toString());
 //                if(temp<4){
 //                    Pair pair = PairFactory.new Instance(Pair.TYPE_SUPPLIES,temp);
 //                    App.get().addPair(pair);

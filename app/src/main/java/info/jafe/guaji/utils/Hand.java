@@ -13,7 +13,6 @@ import info.jafe.guaji.ui.MainActivity;
 public class Hand extends Handler{
     public interface What {
         int SHOW_TOAST = 0;
-        int REFRESH_ADAPTER = 1;
     }
 
     public Hand(){
@@ -31,10 +30,6 @@ public class Hand extends Handler{
                 int duration = msg.arg2!=0?Toast.LENGTH_LONG:Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(MainActivity.instance,str,duration);
                 toast.show();
-                break;
-            }
-            case What.REFRESH_ADAPTER:{
-                MainActivity.instance.refreshAdapter();
                 break;
             }
             default:{

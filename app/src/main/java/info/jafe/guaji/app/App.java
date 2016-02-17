@@ -10,8 +10,8 @@ import info.jafe.guaji.Entity.Price;
 import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.Entity.factories.PairFactory;
 import info.jafe.guaji.managers.DataManager;
+import info.jafe.guaji.ui.MainActivity;
 import info.jafe.guaji.utils.Hand;
-import info.jafe.guaji.utils.Logs;
 
 /**
  * Created by JafeChang on 16/1/14.
@@ -41,6 +41,9 @@ public class App extends Application {
     }
 
 
+    /**
+     *
+     */
     public void read() {
         if (suppliesList == null) {
             suppliesList = new SparseArray<>();
@@ -129,6 +132,16 @@ public class App extends Application {
         dm.reset();
     }
 
+
+    /**
+     * This method is for do consume to buy one pair.
+     *  If the players have enough supplies to buy this pair, those pairs in price list of this
+     *  pair will be reduced and this method returns true, or those reducing will rollback
+     *  and this method will returns false.
+     * @param pair the pair to consume
+     * @return true - consumes well ;<br>
+     *     false - consumes failed, cause of no enough supplies .
+     */
     public boolean consumes(Pair pair) {
         int type = pair.getType();
         int key = pair.getKey();
@@ -138,7 +151,7 @@ public class App extends Application {
         for (Price price : priceList) {
             Pair pairToConsume = getPair(price.getType(), price.getKey());
             if (pairToConsume == null) {
-                pairsRollsBack(consumedPairs, addens);
+                pairsRollback(consumedPairs, addens);
                 return false;
             }
             long adden = price.getValue();
@@ -146,19 +159,28 @@ public class App extends Application {
             consumedPairs.add(pairToConsume);
             addens.add(adden);
             if (pairToConsume.getValue() < 0) {
-                pairsRollsBack(consumedPairs, addens);
+                pairsRollback(consumedPairs, addens);
                 return false;
             }
         }
         return true;
     }
 
-    private void pairsRollsBack(List<Pair> pairs, List<Long> addens) {
+    /**
+     * To do rollback od the pairs in list one-by-one
+     * @param pairs
+     * @param addens
+     */
+    private void pairsRollback(List<Pair> pairs, List<Long> addens) {
         for (int i = 0; i < pairs.size(); i++) {
             pairs.get(i).add(addens.get(i));
         }
     }
 
+    /**
+     * This method is for the pair to do product.
+     * @param pair the pair to product
+     */
     public void products(Pair pair) {
         int type = pair.getType();
         int key = pair.getKey();
@@ -168,8 +190,22 @@ public class App extends Application {
             Pair pairToProduct = getOrNewPair(production.getType(), production.getKey());
             pairToProduct.add(value * production.getValue());
         }
-
     }
+
+    /**
+     * This method is the most important matter in Guaji.
+     *  In each tick, this method would be invoked once to do something important.
+     *  Remember, <b>DO NOT</b> remove this method no matter what happened,
+     *  unless you want to kill this app.
+     */
+    public void doInTick(){
+        for(int i=0;i<buildingList.size();i++){
+            Pair pair = buildingList.valueAt(i);
+            products(pair);
+        }
+        MainActivity.instance.refresh();
+    }
+
 
 
 }

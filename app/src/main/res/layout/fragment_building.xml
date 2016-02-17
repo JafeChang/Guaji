@@ -8,19 +8,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="10">
 
         <Button
             android:id="@+id/building_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="This is the building fragment" />
 
         <GridView
             android:id="@+id/building_grid"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="3"/>
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:numColumns="4"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+            <ImageView
+                android:id="@+id/building_selected_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/building_back"/>
+            <TextView
+                android:id="@+id/building_selected_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:textSize="36sp"
+                android:text="Building"/>
+            <Button
+                android:id="@+id/building_selected_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="50dp"
+                android:text="buy"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

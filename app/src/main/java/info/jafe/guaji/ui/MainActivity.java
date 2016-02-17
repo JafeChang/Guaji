@@ -211,9 +211,16 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         App.get().save();
     }
 
-    public void refreshAdapter() {
-        BuildingFragment.getInstance("","").refresh();
-        SuppliesFragment.getInstance("","").refresh();
+    public void refresh() {
+        hand.post(new Runnable() {
+            @Override
+            public void run() {
+                BuildingFragment.get().refresh();
+                SuppliesFragment.get().refresh();
+
+            }
+        });
+
     }
 
     //    private void initNewly(){

@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import info.jafe.guaji.Entity.factories.PairFactory;
 import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.BuildingAdapter;
 import info.jafe.guaji.app.App;
+import info.jafe.guaji.ui.MainActivity;
 import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
 import info.jafe.guaji.utils.Hand;
 
@@ -45,8 +48,16 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
     private Button bt;
     private GridView buildingListView;
 
+    private ImageView imSelect;
+    private TextView tvSelect;
+    private Button btnSelectBuy;
+    private OnSelectBtnClick lnSelectBuy;
+
+
     private BuildingAdapter buildingAdapter;
     private SparseArray<Pair> buildingList;
+
+//    private Pair selectedBuilding;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,6 +80,10 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
             instance.setArguments(args);
         }
         return instance;
+    }
+
+    public static BuildingFragment get(){
+        return getInstance("","");
     }
 
     public BuildingFragment() {
@@ -102,7 +117,13 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
 
         bt.setOnClickListener(this);
         buildingListView.setAdapter(buildingAdapter);
-        buildingListView.setOnItemClickListener(new OnBuildingClickListener());
+        buildingListView.setOnItemClickListener(new OnBuildingClickListener(this));
+
+        imSelect = (ImageView) view.findViewById(R.id.building_selected_img);
+        tvSelect = (TextView) view.findViewById(R.id.building_selected_text);
+        btnSelectBuy = (Button) view.findViewById(R.id.building_selected_btn);
+        lnSelectBuy = new OnSelectBtnClick();
+        btnSelectBuy.setOnClickListener(lnSelectBuy);
 
     }
 
@@ -171,18 +192,59 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+//    public void setSelectedBuilding(Pair pair){
+//        this.selectedBuilding = pair;
+//    }
+//
+//    public Pair getSelectedBuilding(){
+//        return this.selectedBuilding;
+//    }
+
+    public void onItemClick(Pair pair){
+        tvSelect.setText(pair.getTitle());
+        lnSelectBuy.setPair(pair);
+
+
+    }
+
+
 
 }
 
 class OnBuildingClickListener implements AdapterView.OnItemClickListener{
+
+    BuildingFragment f;
+
+    OnBuildingClickListener(BuildingFragment f){
+        this.f = f;
+    }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         BuildingAdapter buildingAdapter = (BuildingAdapter) parent.getAdapter();
         Pair pair = (Pair) buildingAdapter.getItem(position);
-        App.get().products(pair);
-        Hand.send(Hand.What.REFRESH_ADAPTER);
+        f.onItemClick(pair);
+//        App.get().products(pair);
+//        f.setSelectedBuilding(pair);
+//        Hand.send(Hand.What.REFRESH_ADAPTER);
+
     }
 }
 
+class OnSelectBtnClick implements View.OnClickListener{
+    private  Pair pair;
+
+    protected void setPair(Pair pair) {
+        this.pair = pair;
+    }
+    @Override
+    public void onClick(View v) {
+        if(pair != null){
+            if(App.get().consumes(pair)){
+                pair.add(1);
+            }
+            MainActivity.instance.refresh();
+        }
+    }
+}
