@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import info.jafe.guaji.R;
 import info.jafe.guaji.app.App;
+import info.jafe.guaji.service.ServiceImp;
 import info.jafe.guaji.ui.fragment.BuildingFragment;
 import info.jafe.guaji.ui.fragment.SettingsFragment;
 import info.jafe.guaji.ui.fragment.SuppliesFragment;
@@ -55,12 +56,15 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         init();
         initFragment();
         Logs.d("MainActivity");
+//        Intent intent = new Intent(this, ServiceImp.class);
+//        startService(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         initData();
+        App.get().startTimer(2000);
     }
 
     private void initData() {
@@ -208,7 +212,10 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
     @Override
     protected void onStop() {
         super.onStop();
+        App.get().stopTimer();
         App.get().save();
+//        Intent intent = new Intent(this,ServiceImp.class);
+//        stopService(intent);
     }
 
     public void refresh() {
@@ -223,15 +230,5 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
 
     }
 
-    //    private void initNewly(){
-////        findViewById(R.id.bt_top).setOnClickListener(this);
-//        app = App.get();
-//        handler = new Hand();
-//    }
-//
-//    private void initList(){
-//        displayListView = (ListView) findViewById(R.id.display_list);
-//        app.bindDisplayList(displayListView);
-//    }
 }
 

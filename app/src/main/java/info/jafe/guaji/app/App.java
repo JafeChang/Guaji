@@ -5,13 +5,14 @@ import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import info.jafe.guaji.Entity.Price;
 import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.Entity.factories.PairFactory;
 import info.jafe.guaji.managers.DataManager;
 import info.jafe.guaji.ui.MainActivity;
-import info.jafe.guaji.utils.Hand;
 
 /**
  * Created by JafeChang on 16/1/14.
@@ -21,6 +22,13 @@ public class App extends Application {
     private SparseArray<Pair> buildingList;
     private static App instance = null;
     private DataManager dm;
+    private Timer timer;
+
+    public long getTimerPeriod() {
+        return timerPeriod;
+    }
+
+    private long timerPeriod = 2000;
 
     @Override
     public void onCreate() {
@@ -204,6 +212,43 @@ public class App extends Application {
             products(pair);
         }
         MainActivity.instance.refresh();
+    }
+
+    /**
+     * To start a timer .
+     */
+    public void startTimer(long period){
+        if(timer != null){
+            timer.cancel();
+        }
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                doInTick();
+            }
+        };
+        timer = new Timer(true);
+        timerPeriod = period;
+        timer.schedule(timerTask, 0, period);
+    }
+
+    /**
+     * To stop the timer .
+     */
+    public void stopTimer(){
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    /**
+     * To modify the timer period
+     * @param period new timer period
+     */
+    public void modifyTimer(long period){
+        stopTimer();
+        startTimer(period);
     }
 
 

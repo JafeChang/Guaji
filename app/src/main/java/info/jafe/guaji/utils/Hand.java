@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
-import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.MainActivity;
 
 /**
