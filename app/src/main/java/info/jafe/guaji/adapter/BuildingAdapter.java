@@ -2,6 +2,7 @@ package info.jafe.guaji.adapter;
 
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import info.jafe.guaji.Entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.abstracts.AbstractsAdapter;
 import info.jafe.guaji.ui.MainActivity;
+import info.jafe.guaji.ui.fragment.BuildingFragment;
 import info.jafe.guaji.utils.Strs;
 
 /**
@@ -36,6 +38,7 @@ public class BuildingAdapter extends AbstractsAdapter {
             holder.tvTitle = (TextView)convertView.findViewById(R.id.building_unit_title);
             holder.tvValue = (TextView)convertView.findViewById(R.id.building_unit_value);
             holder.imBuilding = (ImageView)convertView.findViewById(R.id.building_unit_img);
+//            holder.imRound = (ImageView) convertView.findViewById(R.id.building_round);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder)convertView.getTag();
@@ -44,6 +47,11 @@ public class BuildingAdapter extends AbstractsAdapter {
         Pair pair = (Pair) getItem(position);
         holder.tvTitle.setText(pair.getTitle());
         holder.tvValue.setText(Strs.f(pair.getValue()));
+//        if(position == BuildingFragment.get().getSelectPosition()){
+//            holder.imRound.setVisibility(View.VISIBLE);
+//        }else{
+//            holder.imRound.setVisibility(View.GONE);
+//        }
         return convertView;
     }
 
@@ -51,6 +59,7 @@ public class BuildingAdapter extends AbstractsAdapter {
         ImageView imBuilding;
         TextView tvTitle;
         TextView tvValue;
+//        ImageView imRound;
         ViewHolder(){}
     }
 }

@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:gravity="center"
-    android:orientation="vertical">
-
+    android:layout_marginTop="10dp">
     <ImageView
-        android:id="@+id/building_unit_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/building_back" />
-
-    <TextView
-        android:id="@+id/building_unit_title"
+        android:id="@+id/building_round"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:hint="建筑名"
-        android:textColor="@color/text" />
+        android:layout_height="match_parent"
+        android:background="@drawable/building_round"
+        android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/building_unit_value"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:hint="建筑数量"
-        android:textColor="@color/text" />
-</LinearLayout>
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/building_unit_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/building_back" />
+
+        <TextView
+            android:id="@+id/building_unit_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:hint="建筑名"
+            android:textColor="@color/text"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/building_unit_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="建筑数量"
+            android:textColor="@color/text" />
+    </LinearLayout>
+</FrameLayout>

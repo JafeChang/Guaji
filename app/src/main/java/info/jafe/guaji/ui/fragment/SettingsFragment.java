@@ -12,7 +12,7 @@ import android.widget.TextView;
 import info.jafe.guaji.R;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.utils.Hand;
-import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
+import info.jafe.guaji.ui.listeners.OnFragmentInteractionListener;
 
 /**
  * A simple {@link Fragment} subclass.

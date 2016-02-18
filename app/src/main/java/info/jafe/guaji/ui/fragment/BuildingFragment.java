@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.SparseArray;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,7 @@ import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.BuildingAdapter;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.MainActivity;
-import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
-import info.jafe.guaji.utils.Hand;
+import info.jafe.guaji.ui.listeners.OnFragmentInteractionListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +31,7 @@ import info.jafe.guaji.utils.Hand;
  * Use the {@link BuildingFragment#getInstance} factory method to
  * create an instance of this fragment.
  */
-public class BuildingFragment extends Fragment implements View.OnClickListener{
+public class BuildingFragment extends Fragment implements View.OnClickListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -52,10 +52,13 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
     private TextView tvSelect;
     private Button btnSelectBuy;
     private OnSelectBtnClick lnSelectBuy;
+    private int selectPosition=-1;
 
 
     private BuildingAdapter buildingAdapter;
     private SparseArray<Pair> buildingList;
+
+    private GestureDetector mGestureDetector;
 
 //    private Pair selectedBuilding;
 
@@ -117,6 +120,7 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
 
         bt.setOnClickListener(this);
         buildingListView.setAdapter(buildingAdapter);
+
         buildingListView.setOnItemClickListener(new OnBuildingClickListener(this));
 
         imSelect = (ImageView) view.findViewById(R.id.building_selected_img);
@@ -200,14 +204,16 @@ public class BuildingFragment extends Fragment implements View.OnClickListener{
 //        return this.selectedBuilding;
 //    }
 
-    public void onItemClick(Pair pair){
-        tvSelect.setText(pair.getTitle());
-        lnSelectBuy.setPair(pair);
-
-
+    public int getSelectPosition(){
+        return selectPosition;
     }
 
+    public void onItemClick(Pair pair, int position){
+        tvSelect.setText(pair.getTitle());
+        lnSelectBuy.setPair(pair);
+        selectPosition = position;
 
+    }
 
 }
 
@@ -219,12 +225,20 @@ class OnBuildingClickListener implements AdapterView.OnItemClickListener{
         this.f = f;
     }
 
+    View prevSelectView;
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         BuildingAdapter buildingAdapter = (BuildingAdapter) parent.getAdapter();
         Pair pair = (Pair) buildingAdapter.getItem(position);
-        f.onItemClick(pair);
+        f.onItemClick(pair,position);
+        if(prevSelectView!=null){
+            prevSelectView.setVisibility(View.GONE);
+        }
+        ImageView round = (ImageView) ((ViewGroup)view).getChildAt(0);
+        round.setVisibility(View.VISIBLE);
+        prevSelectView = round;
 //        App.get().products(pair);
 //        f.setSelectedBuilding(pair);
 //        Hand.send(Hand.What.REFRESH_ADAPTER);

@@ -17,7 +17,8 @@
         <ListView
             android:id="@+id/supplies_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:listSelector="@color/transparent"/>
     </LinearLayout>
 
 </FrameLayout>

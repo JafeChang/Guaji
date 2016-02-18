@@ -4,22 +4,25 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import info.jafe.guaji.R;
 import info.jafe.guaji.app.App;
-import info.jafe.guaji.service.ServiceImp;
 import info.jafe.guaji.ui.fragment.BuildingFragment;
 import info.jafe.guaji.ui.fragment.SettingsFragment;
 import info.jafe.guaji.ui.fragment.SuppliesFragment;
-import info.jafe.guaji.ui.interfaces.OnFragmentInteractionListener;
+import info.jafe.guaji.ui.listeners.OnFragmentInteractionListener;
+import info.jafe.guaji.ui.listeners.Swapper;
 import info.jafe.guaji.utils.Hand;
 import info.jafe.guaji.utils.Logs;
 
@@ -34,10 +37,15 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
     public static MainActivity instance;
     private App app;
     private FragmentManager fragmentManager;
-    private Fragment fBuildings, fSupplies,fSettings;
-    private RelativeLayout rlBuildings, rlSupplies, rlSettings;
-    private TextView tvBuildings, tvSupplies, tvSettings;
+    private Fragment fBuildings, fSupplies,fSettings, fNews;
+    private RelativeLayout rlBuildings, rlSupplies, rlSettings, rlNews;
+    private TextView tvBuildings, tvSupplies, tvSettings, tvNews;
     private Hand hand;
+    private int currentFragmentLayout = R.id.building_layout;
+
+    private DrawerLayout drawer;
+    private ListView drawerListView;
+    private Swapper swapper;
 
     @Override
     public void onClick(View view) {
@@ -65,6 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         super.onStart();
         initData();
         App.get().startTimer(2000);
+        setTabSelection(currentFragmentLayout);
     }
 
     private void initData() {
@@ -74,6 +83,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
     private void init() {
         hand = new Hand();
         Hand.bind(hand);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_start);
     }
 
     /**
@@ -83,18 +93,29 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         fragmentManager = getFragmentManager();
         rlBuildings = (RelativeLayout) findViewById(R.id.building_layout);
         rlSupplies = (RelativeLayout) findViewById(R.id.supplies_layout);
+        rlNews = (RelativeLayout) findViewById(R.id.news_layout);
         rlSettings = (RelativeLayout) findViewById(R.id.settings_layout);
 
         tvBuildings = (TextView) findViewById(R.id.building_text);
         tvSupplies = (TextView) findViewById(R.id.supplies_text);
+        tvNews = (TextView) findViewById(R.id.news_text);
         tvSettings = (TextView) findViewById(R.id.settings_text);
 
         rlBuildings.setOnClickListener(this);
         rlSupplies.setOnClickListener(this);
+        rlNews.setOnClickListener(this);
         rlSettings.setOnClickListener(this);
 
+        drawerListView = (ListView) findViewById(R.id.left_drawer);
+
+        swapper = new Swapper();
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        swapper.onTouch(ev);
+        return super.dispatchTouchEvent(ev);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -161,9 +182,15 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 }
                 break;
             }
+            case R.id.news_layout:{
+                Logs.d("");
+                drawer.openDrawer(Gravity.LEFT);
+                break;
+            }
             default:{break;}
         }
         transaction.commit();
+        currentFragmentLayout = id;
     }
 
     /**
@@ -229,6 +256,48 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         });
 
     }
+
+    /**
+     * <--- -  ||  +  ---><br>
+     * drawer || building_layout || supplies_layout || settings_layout
+     * @param direction greater than 0 - right<br> otherwise - left
+     */
+    public void swap(int direction){
+        switch (currentFragmentLayout){
+            case R.id.building_layout: {
+                if(direction>0){
+                    if(drawer.isDrawerOpen(Gravity.LEFT)){
+                        drawer.closeDrawer(Gravity.LEFT);
+                    }else {
+                        setTabSelection(R.id.supplies_layout);
+                    }
+                }else{
+                    drawer.openDrawer(Gravity.LEFT);
+                }
+                break;
+            }
+            case R.id.supplies_layout:{
+                if(direction>0){
+                    setTabSelection(R.id.settings_layout);
+                }else{
+                    setTabSelection(R.id.building_layout);
+                }
+                break;
+            }
+            case R.id.settings_layout:{
+                if(direction<0){
+                    setTabSelection(R.id.supplies_layout);
+                }
+                break;
+            }
+            case R.id.news_layout:{
+                break;
+            }
+            default:break;
+        }
+
+    }
+
 
 }
 

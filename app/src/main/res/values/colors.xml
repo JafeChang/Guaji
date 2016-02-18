@@ -7,4 +7,5 @@
     <color name="table_select_text">@color/black</color>
     <color name="table_noselect_back">@color/transparent</color>
     <color name="table_notselect_text">@color/defaultgrey</color>
+    <color name="building_round">@color/defaultgrey</color>
 </resources>
