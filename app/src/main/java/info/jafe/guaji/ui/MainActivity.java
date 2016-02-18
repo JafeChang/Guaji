@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -40,6 +41,8 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
     private Fragment fBuildings, fSupplies,fSettings, fNews;
     private RelativeLayout rlBuildings, rlSupplies, rlSettings, rlNews;
     private TextView tvBuildings, tvSupplies, tvSettings, tvNews;
+    private int currentFragment = -1;
+
     private Hand hand;
     private int currentFragmentLayout = R.id.building_layout;
 
@@ -63,7 +66,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         instance = this;
         init();
         initFragment();
-        Logs.d("MainActivity");
+//        Logs.d("MainActivity");
 //        Intent intent = new Intent(this, ServiceImp.class);
 //        startService(intent);
     }
@@ -113,6 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+//        Logs.d(currentFragment+"");
         swapper.onTouch(ev);
         return super.dispatchTouchEvent(ev);
     }
@@ -145,10 +149,35 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
      * @param id
      */
     private void setTabSelection(int id) {
+        int to = 0;
+        switch (id) {
+            case R.id.building_layout: {
+                to = 0;
+                break;
+            }
+            case R.id.supplies_layout:{
+                to = 1;
+                break;
+            }
+            case R.id.settings_layout:{
+                to = 2;
+                break;
+            }
+            default:{break;}
+        }
+        if(to == currentFragment){
+            return;
+        }
         // 每次选中之前先清楚掉上次的选中状态
         clearSelectionStyle();
         // 开启一个Fragment事务
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        if(to<currentFragment){
+            transaction.setCustomAnimations(R.animator.slide_in_left,R.animator.slide_out_right);
+        }else if(to>currentFragment){
+            transaction.setCustomAnimations(R.animator.slide_in_right,R.animator.slide_out_left);
+        }
         // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
         hideFragments(transaction);
         switch (id) {
@@ -160,6 +189,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 }else{
                     transaction.show(fBuildings);
                 }
+                currentFragment = 0;
                 break;
             }
             case R.id.supplies_layout:{
@@ -170,6 +200,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 }else {
                     transaction.show(fSupplies);
                 }
+                currentFragment = 1;
                 break;
             }
             case R.id.settings_layout:{
@@ -180,10 +211,11 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 }else {
                     transaction.show(fSettings);
                 }
+                currentFragment = 2;
                 break;
             }
             case R.id.news_layout:{
-                Logs.d("");
+//                Logs.d("");
                 drawer.openDrawer(Gravity.LEFT);
                 break;
             }
@@ -297,7 +329,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         }
 
     }
-
 
 }
 

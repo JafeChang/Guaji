@@ -45,11 +45,11 @@ public class Swapper implements GestureDetector.OnGestureListener {
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        Logs.d("");
         float start = e1.getX();
         float end = e2.getX();
-        if (Math.abs(start - end) > GestureConstant.FLING_MIN_DISTANCE &&
-                Math.abs(velocityX) > GestureConstant.FLING_MIN_VELOCITY) {
+        if (Math.abs(start - end) > GestureConstant.FLING_MIN_DISTANCE
+                && Math.abs(velocityX) > GestureConstant.FLING_MIN_VELOCITY
+                && Math.abs(start-end)>1.5f*Math.abs(e1.getY()-e2.getY())) {
             MainActivity.instance.swap((int) (start - end));
             return true;
         }
