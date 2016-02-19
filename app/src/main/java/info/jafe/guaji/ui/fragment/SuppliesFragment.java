@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-import info.jafe.guaji.Entity.abstracts.Pair;
+import info.jafe.guaji.entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.SuppliesAdapter;
 import info.jafe.guaji.app.App;

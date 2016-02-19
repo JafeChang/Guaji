@@ -5,11 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.SparseArray;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import info.jafe.guaji.Entity.factories.PairFactory;
-import info.jafe.guaji.Entity.abstracts.Pair;
+import info.jafe.guaji.entity.factories.PairFactory;
+import info.jafe.guaji.entity.abstracts.Pair;
 import info.jafe.guaji.app.App;
 
 /**

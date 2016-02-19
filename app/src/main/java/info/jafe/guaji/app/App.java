@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import info.jafe.guaji.Entity.Price;
-import info.jafe.guaji.Entity.abstracts.Pair;
-import info.jafe.guaji.Entity.factories.PairFactory;
+import info.jafe.guaji.entity.Price;
+import info.jafe.guaji.entity.abstracts.Pair;
+import info.jafe.guaji.entity.factories.PairFactory;
 import info.jafe.guaji.managers.DataManager;
 import info.jafe.guaji.ui.MainActivity;
 

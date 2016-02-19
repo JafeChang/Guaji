@@ -15,8 +15,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import info.jafe.guaji.Entity.factories.PairFactory;
-import info.jafe.guaji.Entity.abstracts.Pair;
+import info.jafe.guaji.entity.factories.PairFactory;
+import info.jafe.guaji.entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.BuildingAdapter;
 import info.jafe.guaji.app.App;

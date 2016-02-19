@@ -2,19 +2,15 @@ package info.jafe.guaji.adapter;
 
 import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-import info.jafe.guaji.Entity.abstracts.Pair;
+import info.jafe.guaji.entity.abstracts.Pair;
 import info.jafe.guaji.R;
 import info.jafe.guaji.adapter.abstracts.AbstractsAdapter;
 import info.jafe.guaji.ui.MainActivity;
-import info.jafe.guaji.ui.fragment.BuildingFragment;
 import info.jafe.guaji.utils.Strs;
 
 /**

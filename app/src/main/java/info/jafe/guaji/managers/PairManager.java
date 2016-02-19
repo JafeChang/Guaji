@@ -1,10 +1,5 @@
 package info.jafe.guaji.managers;
 
-import java.util.List;
-
-import info.jafe.guaji.Entity.abstracts.Pair;
-import info.jafe.guaji.app.App;
-
 /**
  * Created by jianfei on 2016/1/27.
  */
