@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="96dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/impedance_unit_tv_main"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="main title" />
+    <TextView
+        android:id="@+id/impedance_unit_tv_sub"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/impedance_unit_tv_main"
+        android:layout_marginTop="8dp"
+        android:layout_alignLeft="@+id/impedance_unit_tv_main"
+        android:layout_alignStart="@+id/impedance_unit_tv_main"
+        android:text="sub title"/>
+
+    <TextView
+        android:id="@+id/impedance_unit_tv_freq"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/impedance_unit_tv_main"
+        android:layout_toRightOf="@+id/impedance_unit_tv_main"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="35.0" />
+
+    <TextView
+        android:id="@+id/impedance_unit_tv_freq_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/impedance_unit_tv_freq"
+        android:layout_alignLeft="@+id/impedance_unit_tv_freq"
+        android:layout_alignStart="@+id/impedance_unit_tv_freq"
+        android:layout_alignTop="@+id/impedance_unit_tv_sub"
+        android:text="30.0" />
+    <TextView
+        android:id="@+id/impedance_unit_tv_freq_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="~"
+        android:layout_toEndOf="@+id/impedance_unit_tv_freq_start"
+        android:layout_toRightOf="@+id/impedance_unit_tv_freq_start"
+        android:layout_below="@+id/impedance_unit_tv_freq"
+        android:layout_alignTop="@+id/impedance_unit_tv_sub"
+        />
+    <TextView
+        android:id="@+id/impedance_unit_tv_freq_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40.0"
+        android:layout_toEndOf="@+id/impedance_unit_tv_freq_line"
+        android:layout_toRightOf="@+id/impedance_unit_tv_freq_line"
+        android:layout_below="@+id/impedance_unit_tv_freq"
+        android:layout_alignTop="@+id/impedance_unit_tv_sub"
+        />
+    <ImageView
+        android:id="@+id/impedance_unit_iv"
+        android:layout_width="96dp"
+        android:layout_height="54dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/white"/>
+</RelativeLayout>

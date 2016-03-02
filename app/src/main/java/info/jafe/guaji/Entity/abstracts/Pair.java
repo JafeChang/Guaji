@@ -1,11 +1,5 @@
-package info.jafe.guaji.Entity.abstracts;
+package info.jafe.guaji.entity.abstracts;
 
-
-import android.util.SparseArray;
-
-import java.util.List;
-
-import info.jafe.guaji.Entity.Price;
 
 /**
  * Created by JafeChang on 16/1/14.

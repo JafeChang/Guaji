@@ -1,6 +1,6 @@
-package info.jafe.guaji.Entity;
+package info.jafe.guaji.entity;
 
-import info.jafe.guaji.Entity.abstracts.Pair;
+import info.jafe.guaji.entity.abstracts.Pair;
 
 /**
  * Created by jianfei on 2016/1/22.

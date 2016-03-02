@@ -20,6 +20,7 @@ import android.widget.TextView;
 import info.jafe.guaji.R;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.ui.fragment.BuildingFragment;
+import info.jafe.guaji.ui.fragment.NewsFragment;
 import info.jafe.guaji.ui.fragment.SettingsFragment;
 import info.jafe.guaji.ui.fragment.SuppliesFragment;
 import info.jafe.guaji.ui.listeners.OnFragmentInteractionListener;
@@ -159,8 +160,12 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 to = 1;
                 break;
             }
-            case R.id.settings_layout:{
+            case R.id.news_layout:{
                 to = 2;
+                break;
+            }
+            case R.id.settings_layout:{
+                to = 3;
                 break;
             }
             default:{break;}
@@ -203,6 +208,19 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 currentFragment = 1;
                 break;
             }
+            case R.id.news_layout:{
+//                Logs.d("");
+//                drawer.openDrawer(Gravity.LEFT);
+                setSelectionStyle(rlNews,tvNews);
+                if(fNews == null){
+                    fNews = NewsFragment.getInstance("", "");
+                    transaction.add(R.id.content,fNews);
+                }else {
+                    transaction.show(fNews);
+                }
+                currentFragment = 2;
+                break;
+            }
             case R.id.settings_layout:{
                 setSelectionStyle(rlSettings,tvSettings);
                 if(fSettings == null){
@@ -211,12 +229,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
                 }else {
                     transaction.show(fSettings);
                 }
-                currentFragment = 2;
-                break;
-            }
-            case R.id.news_layout:{
-//                Logs.d("");
-                drawer.openDrawer(Gravity.LEFT);
+                currentFragment = 3;
                 break;
             }
             default:{break;}
@@ -238,6 +251,8 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         tvSupplies.setTextColor(c1);
         rlSettings.setBackgroundColor(c0);
         tvSettings.setTextColor(c1);
+        rlNews.setBackgroundColor(c0);
+        tvNews.setTextColor(c1);
     }
 
     /**
@@ -265,6 +280,9 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
         }
         if (fSettings != null) {
             transaction.hide(fSettings);
+        }
+        if(fNews != null) {
+            transaction.hide(fNews);
         }
     }
 
@@ -310,19 +328,24 @@ public class MainActivity extends Activity implements View.OnClickListener, OnFr
             }
             case R.id.supplies_layout:{
                 if(direction>0){
-                    setTabSelection(R.id.settings_layout);
+                    setTabSelection(R.id.news_layout);
                 }else{
                     setTabSelection(R.id.building_layout);
                 }
                 break;
             }
-            case R.id.settings_layout:{
+            case R.id.news_layout:{
                 if(direction<0){
                     setTabSelection(R.id.supplies_layout);
+                }else {
+                    setTabSelection(R.id.settings_layout);
                 }
                 break;
             }
-            case R.id.news_layout:{
+            case R.id.settings_layout:{
+                if(direction<0){
+                    setTabSelection(R.id.news_layout);
+                }
                 break;
             }
             default:break;

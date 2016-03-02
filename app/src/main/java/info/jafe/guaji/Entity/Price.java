@@ -1,4 +1,4 @@
-package info.jafe.guaji.Entity;
+package info.jafe.guaji.entity;
 
 /**
  * Created by jianfei on 2016/1/30.

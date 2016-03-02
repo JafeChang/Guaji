@@ -1,4 +1,4 @@
-package info.jafe.guaji.Entity.factories;
+package info.jafe.guaji.entity.factories;
 
 import android.util.SparseArray;
 
@@ -9,10 +9,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.jafe.guaji.Entity.Building;
-import info.jafe.guaji.Entity.Price;
-import info.jafe.guaji.Entity.Supplies;
-import info.jafe.guaji.Entity.abstracts.Pair;
+import info.jafe.guaji.entity.Building;
+import info.jafe.guaji.entity.Price;
+import info.jafe.guaji.entity.Supplies;
+import info.jafe.guaji.entity.abstracts.Pair;
 import info.jafe.guaji.app.App;
 import info.jafe.guaji.utils.Disk;
 
